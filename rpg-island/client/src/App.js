@@ -8,6 +8,8 @@ import EditInfo from './pages/EditInfo'
 import MyAnnoucements from './pages/MyAnnoucements.js'
 import ApplicantsList from './pages/ApplicantsList'
 import Chat from './pages/Chat';
+import MyApplications from './pages/MyApplications.js'
+
 
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
@@ -26,6 +28,8 @@ const App = () => {
   <Route path="/myAnnoucements" element={<MyAnnoucements/>}/>
   <Route path="/applicantsList/:postId" element={<ApplicantsList/>} />
   <Route path="/chat/:userId" element={<Chat/>} />
+  <Route path="/myApplications" element={<MyApplications/>} />
+  
   
   
  </Routes>

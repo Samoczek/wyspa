@@ -257,7 +257,9 @@ app.put('/post', async (req, res) => {
     const userId = req.cookies.UserId;
   
     const client = new MongoClient(uri);
-  
+
+
+
     try {
       await client.connect();
       const database = client.db('app-data');
@@ -271,6 +273,50 @@ app.put('/post', async (req, res) => {
       await client.close();
     }
   });
+
+  ///// nowe
+
+    app.get('/myapplications', async (req, res) => {
+      const client = new MongoClient(uri);
+      const userId = req.cookies.UserId;
+
+      try {
+        await client.connect();
+        const database = client.db('app-data');
+        const applications = database.collection('applications');
+
+        const myApplications = await applications.find({ userId: userId}).toArray();
+
+       // console.log(myApplications)
+
+        res.json(myApplications);
+      } finally {
+        await client.close();
+      }
+    });
+
+    app.get('/myapplicatedpost/:postId', async (req, res) => {
+      const postId = req.params.postId;
+    
+      const client = new MongoClient(uri);
+  
+  
+      try {
+        await client.connect();
+        const database = client.db('app-data');
+        const posts = database.collection('post');
+    
+        // Pobierz ogłoszenia tylko dla danego użytkownika
+        const userPosts = await posts.find({ _id: new ObjectId(postId)}).toArray();
+
+
+        res.json(userPosts);
+      } finally {
+        await client.close();
+      }
+    });
+
+  //// nowe
   
 
 // Get Messages by from_userId and to_userId
@@ -409,6 +455,8 @@ app.post('/apply', async (req, res) => {
 app.get('/applicants/:postId', async (req, res) => {
   const client = new MongoClient(uri);
   const postId = req.params.postId;
+
+  console.log(postId)
 
   try {
     await client.connect();

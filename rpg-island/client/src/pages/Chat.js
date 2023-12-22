@@ -1,7 +1,7 @@
 // Chat.js
 import ChatInput from '../Chat/ChatInput'
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
 
@@ -12,6 +12,7 @@ const Chat = () => {
   const MyUserId = cookies.UserId;
   const [usersMessages, setUsersMessages] = useState(null)
   const [clickedUsersMessages, setClickedUsersMessages] = useState(null)
+  let navigate = useNavigate();
 
 
   const getUser = async () => {
@@ -91,8 +92,17 @@ const Chat = () => {
 
   const descendingOrderMessages = messages?.sort((a, b) => a.timestamp.localeCompare(b.timestamp));
 
+  
+  const handleMyAnnoucements = () => {
+    navigate('/myAnnoucements');
+  };
+
   return (
     <div>
+      <p>
+        <button onClick={handleMyAnnoucements}> Powrót </button>
+      </p>
+
       {userData ? (
         <>
           <h2>Chat z użytkownikiem {userData.first_name} {userData.second_name}</h2>

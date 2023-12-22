@@ -41,6 +41,9 @@ const Annoucements = () => {
   const handleMyAnnoucements = () => {
     navigate('/myAnnoucements')
   }
+  const handleMyApplications = () => {
+    navigate('/myApplications')
+  }
 
   const handleGoBack = () => {
     navigate('/');
@@ -54,6 +57,10 @@ const Annoucements = () => {
 
       <div>
         <button onClick={handleMyAnnoucements} disabled={!cookies.AuthToken}>Twoje ogłoszenia</button>
+      </div>
+
+      <div>
+        <button onClick={handleMyApplications} disabled={!cookies.AuthToken}>Moje Zgłoszenia</button>
       </div>
 
       <div>

@@ -7,6 +7,8 @@ const ApplicantsList = () => {
   const [applicants, setApplicants, setClickedUser] = useState([]);
   let navigate = useNavigate();
 
+  console.log(postId)
+
   const getApplicants = async () => {
     try {
       const response = await axios.get(`http://localhost:8000/applicants/${postId}`);
