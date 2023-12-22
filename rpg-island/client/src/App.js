@@ -1,5 +1,4 @@
 import Home from './pages/Home'
-import Dashboard from './pages/Dashboard'
 import Registration from './pages/Registration'
 import Profile from './pages/Profile'
 import Annoucements from './pages/Annoucements'
@@ -19,7 +18,6 @@ const App = () => {
  <BrowserRouter>
  <Routes>
   <Route path="/" element={<Home/>}/>
-  <Route path="/dashboard" element={<Dashboard/>}/>
   <Route path="/registration" element={<Registration/>}/>
   <Route path="/profile" element={<Profile/>}/>
   <Route path="/annoucements" element={<Annoucements/>}/>

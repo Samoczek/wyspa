@@ -1,10 +1,10 @@
-// Profile.js
-import Nav from '../Components/Nav';
 import { useState, useEffect } from 'react';
 import AuthModal from '../Components/AuthModal';
 import { useNavigate } from 'react-router-dom'
 import { useCookies } from 'react-cookie';
 import axios from 'axios';
+import Footer from '../Components/Footer';
+import Header from '../Components/Header';
 
 const Profile = () => {
 
@@ -49,9 +49,26 @@ const Profile = () => {
         };
     
         return (
+
+            
+
             <div>
-                <div className="home">
-                    Home
+                <div className="header">
+                <button className='special-button'  onClick={handleEditInfo}>
+                        Edycja profilu
+                    </button>
+                
+
+                <button className='special-button' onClick={handleClickhome}>
+                        Strona Główna
+                    </button>
+                    <button className='special-button' onClick={logout}>
+                    {'Wyloguj'}
+                </button>
+
+                </div>
+
+                <div className="profile">
                     {cookies.AuthToken && user && <p>Nazwa użytkonika: {user.username}</p>}
                     {cookies.AuthToken && user && <p>Email: {user.email}</p>}
                     {cookies.AuthToken && user && <p>Imie: {user.first_name}</p>}
@@ -61,18 +78,10 @@ const Profile = () => {
                     {cookies.AuthToken && user && <p>Info: {user.about}</p>}
                     {showModal && <AuthModal setShowModal={setShowModal} isSignUp={isSignUp} />}
                 </div>
-                <button onClick={handleEditInfo}>
-                        Profile edit
-                    </button>
                 
-
-                <button onClick={handleClickhome}>
-                        Strona Główna
-                    </button>
-                    <button onClick={logout}>
-                    {'Signout'}
-                </button>
     
+                <Footer />
+
             </div>
         );
     };

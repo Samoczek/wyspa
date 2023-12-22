@@ -1,9 +1,10 @@
-import Nav from '../Components/Nav';
 import { useState, useEffect } from 'react';
 import AuthModal from '../Components/AuthModal';
 import { useNavigate } from 'react-router-dom'
 import { useCookies } from 'react-cookie';
 import axios from 'axios';
+import Footer from '../Components/Footer';
+import Header from '../Components/Header';
 
 const Home = () => {
     const [user, setUser] = useState(null);
@@ -11,9 +12,11 @@ const Home = () => {
     const [isSignUp, setIsSignUp] = useState(true);
     const [cookies, setCookie, removeCookie] = useCookies(['user']);
     const userId = cookies.UserId;
+    const authToken = false;
 
     
     let navigate = useNavigate()
+
 
     const getUser = async () => {
         try {
@@ -53,26 +56,40 @@ const Home = () => {
             navigate('/annoucements')
     };
 
-    return (
-        <div>
-            <Nav setShowModal={setShowModal} showModal={showModal} setIsSignUp={setIsSignUp} />
-            <div className="home">
-                Home
-                {cookies.AuthToken && user && <p>{user.username}</p>}
-                <button onClick={cookies.AuthToken ? logout : handleClick}>
-                    {cookies.AuthToken ? 'Signout' : 'Create Account'}
-                </button>
-                {showModal && <AuthModal setShowModal={setShowModal} isSignUp={isSignUp} />}
-            </div>
-            <button onClick={handleClickprofile} disabled={!cookies.AuthToken}>
-                    Profil
-                </button>
-                <button onClick={handleClickAnnoucements}>
-                    Ogłoszenia
-                </button>  
+    const handleClicklog = () => {
+        setShowModal(true);
+        setIsSignUp(false);
+      };
 
+      return (
+        <div className='main'>
+      
+        <Header 
+            user={user}
+            cookies={cookies}
+            showModal={showModal}
+            setShowModal={setShowModal}
+            AuthModal={AuthModal}
+            handleClicklog={handleClicklog}
+            handleClickprofile={handleClickprofile}
+            logout={logout}
+            handleClick={handleClick}
+            isSignUp={isSignUp}
+        />
+
+    <div className="home">
+
+            <button onClick={handleClickAnnoucements}>
+                Ogłoszenia
+            </button>
         </div>
+
+                <Footer />
+    
+    </div>
+        
     );
-};
+                };
+    
 
 export default Home;

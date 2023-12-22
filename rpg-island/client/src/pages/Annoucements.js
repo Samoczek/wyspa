@@ -4,13 +4,23 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import ApplyButton from './ApplyButton';
 import '../index.css';
+import AuthModal from '../Components/AuthModal';
 
 const Annoucements = () => {
   const [cookies, , removeCookie] = useCookies(['user']);
   const [posts, setPosts] = useState([]);
   const generatedPostId = cookies.UserId;
+  const [showModal, setShowModal] = useState(false);
+  const [isSignUp, setIsSignUp] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const postsPerPage = 5; 
 
   const navigate = useNavigate();
+
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
+
 
   const getPosts = async () => {
     try {
@@ -27,6 +37,11 @@ const Annoucements = () => {
   useEffect(() => {
     getPosts();
   }, []);
+  
+  const handleClicklog = () => {
+    setShowModal(true);
+    setIsSignUp(false);
+  };
 
   const logout = () => {
     removeCookie('UserId', cookies.UserId);
@@ -49,8 +64,97 @@ const Annoucements = () => {
     navigate('/');
   };
 
+  const renderPageNumbers = () => {
+    const totalPageNumbers = Math.ceil(posts.length / postsPerPage);
+    const maxPagesToShow = Math.ceil(posts.length / postsPerPage);
+
+    // Oblicz granice
+    let leftBound = currentPage - Math.floor(maxPagesToShow / 2) +1 ;
+
+    let rightBound = currentPage + Math.floor(maxPagesToShow / 2);
+
+    // Dostosuj granice, jeśli są poza zakresem stron
+    if (leftBound < 1) {
+        rightBound += Math.abs(leftBound) + 1;
+        leftBound = 1;
+    }
+
+    if (rightBound > totalPageNumbers) {
+        leftBound -= rightBound - totalPageNumbers;
+        rightBound = totalPageNumbers;
+    }
+
+    const pages = [];
+
+    for (let i = leftBound; i <= rightBound; i++) {
+        pages.push(i);
+    }
+
+    const renderedPages = pages.map((number) => (
+        <li key={number}>
+            <button 
+                onClick={() => setCurrentPage(number)}
+                style={number === currentPage ? { backgroundColor: 'lightblue' } : {}}
+            >
+                {number}
+            </button>
+        </li>
+    ));
+
+    return (
+        <ul className='pagination'>
+            {currentPage > 1 && (
+                <>
+                    <li>
+                        <button onClick={() => setCurrentPage(1)}>« pierwsza strona</button>
+                    </li>
+                    <li>
+                        <button onClick={() => setCurrentPage(currentPage - 1)}>{'<'}</button>
+                    </li>
+                </>
+            )}
+            {renderedPages.length > 0 && renderedPages}
+            {currentPage < totalPageNumbers && (
+                <>
+                    <li>
+                        <button onClick={() => setCurrentPage(currentPage + 1)}>{'>'}</button>
+                    </li>
+                    <li>
+                        <button onClick={() => setCurrentPage(totalPageNumbers)}>ostatnia strona »</button>
+                    </li>
+                </>
+            )}
+        </ul>
+    );
+};
+
+
+
+
+
+
+
+
   return (
     <div className='Ogłoszenia'>
+      <div className='header'>
+
+            {!cookies.AuthToken && (
+                <button
+                    className="log-button"
+                    onClick={handleClicklog}
+                    disabled={showModal || cookies.AuthToken}
+                >
+                    Zaloguj
+                </button>
+            )}
+
+            <button className='special-button' onClick={handleGoBack}>Strona główna</button>
+
+            <button className="special-button" onClick={logout}> Logout </button>
+
+      </div>
+
       <div>
         <button onClick={handleAddAnnouncement} disabled={!cookies.AuthToken}>Dodaj ogłoszenie</button>
       </div>
@@ -63,16 +167,9 @@ const Annoucements = () => {
         <button onClick={handleMyApplications} disabled={!cookies.AuthToken}>Moje Zgłoszenia</button>
       </div>
 
-      <div>
-        <button onClick={handleGoBack}>Do strony głównej</button>
-      </div>
-
-      <div>
-        <i className="log-out-button" onClick={logout}> Logout </i>
-      </div>
-
-      <div>
-  <h2>Twoje ogłoszenia</h2>
+      <div className='home'>
+        <div className='annocuements'>
+        <h2>Ogłoszenia</h2>
   <table>
     <thead>
       <tr>
@@ -83,11 +180,11 @@ const Annoucements = () => {
         <th>Ilość Graczy</th>
         <th>Scenariusz</th>
         <th>BHS</th>
-        <th>Opis</th>
+        <th>Akcje</th>
       </tr>
     </thead>
     <tbody>
-      {posts.map((post) => (
+      {currentPosts.map((post) => (
         <tr key={post._id}>
           <td>{post.nazwa_systemu}</td>
           <td>{post.termin_sesji}</td>
@@ -96,15 +193,27 @@ const Annoucements = () => {
           <td>{post.ilosc_graczy}</td>
           <td>{post.scenariusz}</td>
           <td>{post.bhs}</td>
-          <td>{post.opis}</td>
           <td>
                   {/* Dodajemy guzik zapisywania się, przekazując postId i userId */}
                   <ApplyButton postId={post._id} userId={generatedPostId} />
                 </td>
         </tr>
+        
       ))}
-    </tbody>
+          </tbody>
   </table>
+  
+    
+  <ul className="pagination">
+      {renderPageNumbers()}
+
+    </ul>
+
+ 
+    
+        </div>
+  
+
 </div>
     </div>
   );

@@ -1,3 +1,5 @@
+import logo from '../resources/Logo.jpg'
+
 const Nav = ({minimal, setShowModal, showModal, setIsSignUp }) => {
     const handleClick = () => {
       setShowModal(true);
@@ -9,6 +11,7 @@ const Nav = ({minimal, setShowModal, showModal, setIsSignUp }) => {
     return (
       <nav>
         <div className="logo-container">
+
         </div>
         {!authToken && !minimal && (
           <button
