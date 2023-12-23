@@ -10,8 +10,6 @@ const PostApplicated = ({ userData, postId }) => {
     let navigate = useNavigate();
 
 
-
-    console.log(userPosts)
     
   const getPosts = async () => {
     try {

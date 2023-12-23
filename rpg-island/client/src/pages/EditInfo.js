@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Footer from '../Components/Footer';
 
 const EditInfo = () => {
     const [user, setUser] = useState(null);
@@ -60,19 +61,31 @@ const EditInfo = () => {
         getUser();
     }, [userId]);
 
+    const logout = () => {
+        removeCookie('UserId', cookies.UserId);
+        removeCookie('AuthToken', cookies.AuthToken);
+        navigate('/');
+      };
+    
+      const handleGoBack = () => {
+        navigate('/profile');
+      };
+
 return (
-    <>
-        <Nav
-            minimal={true}
-            setShowModal={() => {
-            }}
-            showModal={false}
-        />
 
 
-        <div className="onboarding">
-            <h2>Edycja profilu</h2>
+    <div className='main'> 
+    <div className='header'> 
 
+    <button className='button-special' onClick={handleGoBack}>Powrót do profilu</button>
+
+    <button className="button-special" onClick={logout}> Wyloguj </button>
+    
+    </div>
+
+
+
+        <div className="createAnnoucement">
 
             <form onSubmit={handleSubmit}>
                 <section>
@@ -211,8 +224,10 @@ return (
 
 
         </div>
-   
-        </>
+
+        <a id="back-to-top" href="#">👆🏼</a>
+<Footer />
+        </div>
         )
 }
 

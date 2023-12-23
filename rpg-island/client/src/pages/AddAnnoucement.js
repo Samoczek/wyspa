@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Footer from '../Components/Footer';
 
 const AddAnnoucement = () => {
   const [cookies, setCookie, removeCookie] = useCookies(null);
@@ -38,7 +39,6 @@ const AddAnnoucement = () => {
   };
 
   const handleChange = (e) => {
-    // zbędne!
     const value = e.target.type === "checkbox" ? e.target.checked : e.target.value;
     const name = e.target.name;
 
@@ -48,25 +48,40 @@ const AddAnnoucement = () => {
     }));
   };
 
+  const logout = () => {
+    removeCookie('UserId', cookies.UserId);
+    removeCookie('AuthToken', cookies.AuthToken);
+    navigate('/');
+  };
+
+  const handleGoBack = () => {
+    navigate('/annoucements');
+  };
 
 
 return (
-    <>
-        <Nav
-            minimal={true}
-            setShowModal={() => {
-            }}
-            showModal={false}
-        />
+
+    <div className='main'>
+
+        <div className='header'>
+
+
+      <button className='button-special' onClick={handleGoBack}>Powrót do ogłoszeń</button>
+
+      <button className="button-special" onClick={logout}> Wyloguj </button>
+
+      </div>
+
+      <div className='home'>
+    
 
 
         <div className="createAnnoucement">
-            <h2>Utwórz ogłoszenie</h2>
 
 
-            <form onSubmit={handleSubmit}>
+            <form className='addAnnoucement' onSubmit={handleSubmit}>
                 <section>
-                <label htmlFor="nazwa_systemu">Nazwa Systemu</label>
+                <label className='title' htmlFor="nazwa_systemu">Nazwa Systemu</label>
                     <input
                         id="nazwa_systemu"
                         type='text'
@@ -192,8 +207,15 @@ return (
 
         </div>
    
-        </>
+       
+        </div>
+
+        <a id="back-to-top" href="#">👆🏼</a>
+<Footer />
+        </div>
         )
+
+        
 }
 
 

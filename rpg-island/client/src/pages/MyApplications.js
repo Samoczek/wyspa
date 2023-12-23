@@ -27,6 +27,7 @@ const MyApplications = () => {
   useEffect(() => {
     getPosts();
   }, [userId]);
+  
 
 
 

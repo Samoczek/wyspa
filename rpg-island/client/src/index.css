@@ -482,3 +482,75 @@ tbody tr:hover {
 .ApplyButton:hover {
     background-color: #0056b3; /* Ciemniejszy kolor tła przycisku po najechaniu */
 }
+
+/* Dodawanie ogłoszenia */
+
+.createAnnoucement {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 40px;
+    border: 1px solid #e5e5e5;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.createAnnoucement label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.createAnnoucement input[type="text"],
+.createAnnoucement input[type="url"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #e5e5e5;
+    border-radius: 3px;
+    font-size: 15px;
+    background-color: #f9f9f9;
+    transition: border-color 0.35s ease-in-out;
+}
+
+.createAnnoucement input[type="text"]:focus,
+.createAnnoucement input[type="url"]:focus {
+    outline: 0;
+    border-color: #bd8200;
+}
+
+.createAnnoucement input[type="submit"] {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 3px;
+    background-color: #f0a500;
+    color: #fff;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.createAnnoucement input[type="submit"]:hover {
+    background-color: #e59800;
+}
+
+.photo-container {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.photo-container img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 3px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.addAnnoucement {
+    padding: 30px;
+}
+
+
+/* Dodawanie ogłoszenia */
