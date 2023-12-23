@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
-import PostApplicated from './PostApplicated'
 import { useCookies } from 'react-cookie';
 import Footer from '../Components/Footer';
 
@@ -28,40 +27,63 @@ const MyApplications = () => {
     getPosts();
   }, [userId]);
   
+  const logout = () => {
+    removeCookie('UserId', cookies.UserId);
+    removeCookie('AuthToken', cookies.AuthToken);
+    navigate('/');
+  };
 
+  const handleGoBack = () => {
+    navigate('/annoucements');
+  };
+
+  const handleChat = (userId) => {
+    navigate(`/chat/${userId}`);
+  };
 
 
   return (
     <div className='main'>
       <div className='header'>
 
+      
+
+      <button className="button-special" onClick={logout}> Wyloguj </button>
 
       </div>
 
       <div className='home'>
-        <>
+        
 
         <div className='annocuements'>
 
+        <div className='container'>
+        <div className='btn'>
+        <button onClick={handleGoBack}>Powrót do ogłoszeń</button>
+        </div>
+        </div>
         <table>
-    <thead>
-        <tr>
-            <th>Nazwa Systemu</th>
-        </tr>
+
+        <thead>
+      <tr>
+        <th>Nazwa Systemu</th>
+
+      </tr>
     </thead>
+
     <tbody>
         {applications.map((applicant) => (
             <tr key={applicant._id}>
-                <td>
-                    <PostApplicated userData={applicant} postId={applicant.postId} />
-                </td>
+                <td> {applicant.postname} </td>
+                <td><button className='ApplyButton' onClick={() => handleChat(applicant.userId)}>Przejdź do chatu</button></td>
+      
             </tr>
         ))}
     </tbody>
 </table>
 
 </div>
-</>
+
 
 </div>
 

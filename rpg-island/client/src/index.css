@@ -435,6 +435,8 @@ nav .logo-container .logo {
     margin: 8px;
     font-size: 17px;
 }
+
+
 /* Resetowanie stylów dla tabeli */
 table {
     width: 100%;
@@ -477,6 +479,8 @@ tbody tr:hover {
     cursor: pointer;
     border-radius: 4px;
     transition: background-color 0.3s; /* Efekt przejścia dla koloru tła */
+    float: right;
+    margin-right: 3px;
 }
 
 .ApplyButton:hover {

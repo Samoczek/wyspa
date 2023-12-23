@@ -1,4 +1,3 @@
-// Chat.js
 import ChatInput from '../Chat/ChatInput'
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -31,8 +30,6 @@ const Chat = () => {
   }, [userId]);
 
 
-
-  ///
   const getUsersMessages = async () => {
     try {
       if (MyUserId) {
@@ -98,11 +95,18 @@ const Chat = () => {
   };
 
   return (
-    <div>
+    <div className='main'>
+      <div className='header'>
+
+
+      </div>
       <p>
         <button onClick={handleMyAnnoucements}> Powrót </button>
       </p>
 
+    <div className='home'>
+
+    
       {userData ? (
         <>
           <h2>Chat z użytkownikiem {userData.first_name} {userData.second_name}</h2>
@@ -135,7 +139,7 @@ const Chat = () => {
       </>
   
  </div>
-            
+ </div>  
         
 
 

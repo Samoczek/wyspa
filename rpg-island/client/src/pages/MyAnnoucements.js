@@ -62,9 +62,11 @@ const MyAnnoucements = () => {
   return (
     <div className='main'>
       <div className='header'>
-      <button className="button-special" onClick={logout}> Wyloguj </button>
 
       <button className='button-special' onClick={handleGoBack}>Powrót do ogłoszeń</button>
+      <button className="button-special" onClick={logout}> Wyloguj </button>
+
+
 
       </div>
 
@@ -97,18 +99,17 @@ const MyAnnoucements = () => {
           <tbody>
             {posts.map((post) => (
               <tr key={post._id}>
-    <td>{post.nazwa_systemu || ''}</td>
-    <td>{post.termin_sesji || ''}</td>
-    <td>{post.ilosc_sesji || ''}</td>
-    <td>{post.dlugosc_sesji || ''}</td>
-    <td>{post.ilosc_graczy || ''}</td>
-    <td>{post.scenariusz || ''}</td>
-    <td>{post.bhs || ''}</td>
-    <td>{post.opis || ''}</td>
-
+                <td>{post.nazwa_systemu}</td>
+                <td>{post.termin_sesji}</td>
+                <td>{post.ilosc_sesji}</td>
+                <td>{post.dlugosc_sesji}</td>
+                <td>{post.ilosc_graczy}</td>
+                <td>{post.scenariusz}</td>
+                <td>{post.bhs}</td>
+                <td>{post.opis}</td>
                 <td>
-                  <button onClick={() => handleDeleteAnnouncement(post._id)}>Usuń</button>
-                  <button onClick={() => handleViewApplicants(post._id)}>Zobacz zgłoszenia</button>
+                  <button className='ApplyButton' onClick={() => handleDeleteAnnouncement(post._id)}>Usuń</button>
+                  <button className='ApplyButton' onClick={() => handleViewApplicants(post._id)}>Zobacz zgłoszenia</button>
                 </td>
               </tr>
             ))}

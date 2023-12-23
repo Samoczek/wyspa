@@ -196,7 +196,7 @@ const Annoucements = () => {
           <td>{post.scenariusz}</td>
           <td>{post.bhs}</td>
           <td>
-                  <ApplyButton postId={post._id} userId={generatedPostId} />
+                  <ApplyButton postId={post._id} postname={post.nazwa_systemu} userId={generatedPostId} />
                 </td>
         </tr>
         

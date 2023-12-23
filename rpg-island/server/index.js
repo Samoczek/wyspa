@@ -403,7 +403,7 @@ app.post('/apply', async (req, res) => {
       const database = client.db('app-data');
       const applications = database.collection('applications');
   
-      const { postId, userId } = req.body;
+      const { postId, userId, postname } = req.body;
   
       // Sprawdź, czy użytkownik już jest zapisany do tego ogłoszenia
       const existingApplication = await applications.findOne({ postId, userId });
@@ -413,7 +413,7 @@ app.post('/apply', async (req, res) => {
       }
   
       // Zapisz użytkownika do ogłoszenia
-      await applications.insertOne({ postId, userId });
+      await applications.insertOne({ postId, userId, postname });
   
       res.status(201).json({ message: 'Zapisano użytkownika do ogłoszenia pomyślnie.' });
     } catch (error) {
