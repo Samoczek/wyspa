@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import ApplyButton from './ApplyButton';
+import ApplyButton from '../Components/ApplyButton';
 import '../index.css';
 import AuthModal from '../Components/AuthModal';
+import Footer from '../Components/Footer';
 
 const Annoucements = () => {
   const [cookies, , removeCookie] = useCookies(['user']);
@@ -129,19 +130,13 @@ const Annoucements = () => {
 };
 
 
-
-
-
-
-
-
   return (
-    <div className='Ogłoszenia'>
+    <div className='main'>
       <div className='header'>
 
             {!cookies.AuthToken && (
                 <button
-                    className="log-button"
+                    className="button-special"
                     onClick={handleClicklog}
                     disabled={showModal || cookies.AuthToken}
                 >
@@ -149,27 +144,34 @@ const Annoucements = () => {
                 </button>
             )}
 
-            <button className='special-button' onClick={handleGoBack}>Strona główna</button>
+            <button className='button-special' onClick={handleGoBack}>Strona główna</button>
 
-            <button className="special-button" onClick={logout}> Logout </button>
+            <button className="button-special" onClick={logout}> Wyloguj </button>
 
       </div>
 
-      <div>
-        <button onClick={handleAddAnnouncement} disabled={!cookies.AuthToken}>Dodaj ogłoszenie</button>
+
+
+      <div className='home'>
+
+              <div className='container'>
+              
+              <div className='btn'>
+        <button className='special-button' onClick={handleAddAnnouncement} disabled={!cookies.AuthToken}>Dodaj ogłoszenie</button>
       </div>
 
-      <div>
+      <div className='btn'>
         <button onClick={handleMyAnnoucements} disabled={!cookies.AuthToken}>Twoje ogłoszenia</button>
       </div>
 
-      <div>
+      <div className='btn'>
         <button onClick={handleMyApplications} disabled={!cookies.AuthToken}>Moje Zgłoszenia</button>
       </div>
+              </div>
 
-      <div className='home'>
+
+
         <div className='annocuements'>
-        <h2>Ogłoszenia</h2>
   <table>
     <thead>
       <tr>
@@ -194,7 +196,6 @@ const Annoucements = () => {
           <td>{post.scenariusz}</td>
           <td>{post.bhs}</td>
           <td>
-                  {/* Dodajemy guzik zapisywania się, przekazując postId i userId */}
                   <ApplyButton postId={post._id} userId={generatedPostId} />
                 </td>
         </tr>
@@ -215,6 +216,9 @@ const Annoucements = () => {
   
 
 </div>
+<a id="back-to-top" href="#">👆🏼</a>
+<Footer />
+
     </div>
   );
 };

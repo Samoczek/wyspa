@@ -54,19 +54,21 @@ const Profile = () => {
 
             <div>
                 <div className="header">
-                <button className='special-button'  onClick={handleEditInfo}>
+                <button className='button-special'  onClick={handleEditInfo}>
                         Edycja profilu
                     </button>
                 
 
-                <button className='special-button' onClick={handleClickhome}>
+                <button className='button-special' onClick={handleClickhome}>
                         Strona Główna
                     </button>
-                    <button className='special-button' onClick={logout}>
+                    <button className='button-special' onClick={logout}>
                     {'Wyloguj'}
                 </button>
 
                 </div>
+
+                <div className='home'>
 
                 <div className="profile">
                     {cookies.AuthToken && user && <p>Nazwa użytkonika: {user.username}</p>}
@@ -78,7 +80,7 @@ const Profile = () => {
                     {cookies.AuthToken && user && <p>Info: {user.about}</p>}
                     {showModal && <AuthModal setShowModal={setShowModal} isSignUp={isSignUp} />}
                 </div>
-                
+                </div>
     
                 <Footer />
 

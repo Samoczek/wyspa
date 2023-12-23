@@ -79,14 +79,25 @@ const Home = () => {
 
     <div className="home">
 
+    <div className='container'>
+              
+              <div className='btn'>
+
             <button onClick={handleClickAnnoucements}>
                 Ogłoszenia
             </button>
-        </div>
+</div></div>
 
+
+
+        </div>
+        <a id="back-to-top" href="#">👆🏼</a>
                 <Footer />
-    
+                
+                
     </div>
+
+    
         
     );
                 };

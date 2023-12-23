@@ -3,6 +3,7 @@ import { useCookies } from 'react-cookie';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import '../index.css';
+import Footer from '../Components/Footer';
 
 const MyAnnoucements = () => {
   const [cookies, , removeCookie] = useCookies(['user']);
@@ -47,7 +48,6 @@ const MyAnnoucements = () => {
       const response = await axios.delete(`http://localhost:8000/post/${postId}`);
       const success = response.status === 200;
       if (success) {
-        // Po udanym usunięciu ogłoszenia możesz odświeżyć listę ogłoszeń
         getPosts();
       }
     } catch (err) {
@@ -56,23 +56,30 @@ const MyAnnoucements = () => {
   };
 
   const handleViewApplicants = (postId) => {
-    // Przeniesienie do nowej strony z id użytkowników zgłoszonych do ogłoszenia
     navigate(`/applicantsList/${postId}`);
   };
 
   return (
-    <div className='Ogłoszenia'>
-      <div>
+    <div className='main'>
+      <div className='header'>
+      <button className="button-special" onClick={logout}> Wyloguj </button>
+
+      <button className='button-special' onClick={handleGoBack}>Powrót do ogłoszeń</button>
+
+      </div>
+
+
+ 
+
+      <div className='home'>
+
+              <div className='container'>
+      <div className='btn'>
         <button onClick={handleAddAnnouncement}>Dodaj ogłoszenie</button>
+        </div>
       </div>
-      <div>
-        <button onClick={handleGoBack}>Powrót do ogłoszeń</button>
-      </div>
-      <div>
-        <i className="log-out-button" onClick={logout}> Logout </i>
-      </div>
-      <div>
-        <h2>Twoje ogłoszenia</h2>
+
+        <div className='annocuements'>
         <table>
           <thead>
             <tr>
@@ -90,14 +97,15 @@ const MyAnnoucements = () => {
           <tbody>
             {posts.map((post) => (
               <tr key={post._id}>
-                <td>{post.nazwa_systemu}</td>
-                <td>{post.termin_sesji}</td>
-                <td>{post.ilosc_sesji}</td>
-                <td>{post.dlugosc_sesji}</td>
-                <td>{post.ilosc_graczy}</td>
-                <td>{post.scenariusz}</td>
-                <td>{post.bhs}</td>
-                <td>{post.opis}</td>
+    <td>{post.nazwa_systemu || ''}</td>
+    <td>{post.termin_sesji || ''}</td>
+    <td>{post.ilosc_sesji || ''}</td>
+    <td>{post.dlugosc_sesji || ''}</td>
+    <td>{post.ilosc_graczy || ''}</td>
+    <td>{post.scenariusz || ''}</td>
+    <td>{post.bhs || ''}</td>
+    <td>{post.opis || ''}</td>
+
                 <td>
                   <button onClick={() => handleDeleteAnnouncement(post._id)}>Usuń</button>
                   <button onClick={() => handleViewApplicants(post._id)}>Zobacz zgłoszenia</button>
@@ -106,7 +114,11 @@ const MyAnnoucements = () => {
             ))}
           </tbody>
         </table>
+        </div>
       </div>
+
+      <a id="back-to-top" href="#">👆🏼</a>
+<Footer />
     </div>
   );
 };

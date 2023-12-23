@@ -11,7 +11,7 @@ const Header = ({ user, cookies, showModal, handleClicklog, handleClickprofile, 
             {/* Login button */}
             {!cookies.AuthToken && (
                 <button
-                    className="log-button"
+                    className="button-special"
                     onClick={handleClicklog}
                     disabled={showModal || cookies.AuthToken}
                 >
@@ -22,7 +22,7 @@ const Header = ({ user, cookies, showModal, handleClicklog, handleClickprofile, 
             {/* Profile button */}
             {cookies.AuthToken && (
             <button 
-                className='special-button' 
+                className='button-special' 
                 onClick={handleClickprofile} 
                 disabled={!cookies.AuthToken}
             >
@@ -32,7 +32,7 @@ const Header = ({ user, cookies, showModal, handleClicklog, handleClickprofile, 
 
             {/* Logout/Signup button */}
             <button 
-                className='special-button' 
+                className='button-special' 
                 onClick={cookies.AuthToken ? logout : handleClick}
             >
                 {cookies.AuthToken ? 'Wyloguj' : 'Utwórz konto'}

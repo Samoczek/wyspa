@@ -34,7 +34,7 @@ const PostApplicated = ({ userData, postId }) => {
   
 
   return (
-    <div>
+    <div className='annocuements'>
         
         <table>
           <tbody>
