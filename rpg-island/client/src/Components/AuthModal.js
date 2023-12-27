@@ -34,7 +34,7 @@ const AuthModal = ({ setShowModal,  isSignUp }) => {
 
             const success = response.status === 201
             if (success && isSignUp) navigate ('/registration')
-            if (success && !isSignUp) navigate ('/')
+            //if (success && !isSignUp) navigate ('/')
 
             window.location.reload()
 

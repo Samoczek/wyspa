@@ -6,15 +6,22 @@ import AuthModal from '../Components/AuthModal';
 import axios from 'axios';
 
 //user, cookies, showModal, handleClicklog, handleClickprofile, logout, handleClick, isSignUp, setShowModal, AuthModal
-const Header = ({ logout }) => {
+const Header = ({  }) => {
     const [user, setUser] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [isSignUp, setIsSignUp] = useState(true);
-    const [cookies, removeCookie] = useCookies(['user']);
+    const [cookies, setCookie,  removeCookie] = useCookies(['user']);
     const userId = cookies.UserId;
     const AuthToken = false;
 
     let navigate = useNavigate()
+
+    const logout = async () => {
+        removeCookie('UserId');
+        removeCookie('AuthToken');
+        navigate('/');
+        window.location.reload();
+    };
 
     const getUser = async () => {
         try {
@@ -51,6 +58,13 @@ const Header = ({ logout }) => {
         setIsSignUp(false);
       };
 
+      const handleMainPage = () => {
+        navigate('/');
+      };
+
+      const handleClickAnnoucements = () => {
+        navigate('/annoucements')
+};
    
    
     return (
@@ -59,6 +73,12 @@ const Header = ({ logout }) => {
             {cookies.AuthToken && user && (
                 <h3 className='wmessage'>Witaj: {user.username}</h3>
             )}
+
+        <button className='button-special' onClick={handleMainPage}>Strona główna</button>
+
+        <button className='button-special' onClick={handleClickAnnoucements}>
+                Ogłoszenia
+            </button>
 
             {/* Login button */}
             {!cookies.AuthToken && (

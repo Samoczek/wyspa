@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import '../index.css';
 import Footer from '../Components/Footer';
+import Header from '../Components/Header';
 
 const MyAnnoucements = () => {
   const [cookies, , removeCookie] = useCookies(['user']);
@@ -61,14 +62,15 @@ const MyAnnoucements = () => {
 
   return (
     <div className='main'>
-      <div className='header'>
-
-      <button className='button-special' onClick={handleGoBack}>Powrót do ogłoszeń</button>
-      <button className="button-special" onClick={logout}> Wyloguj </button>
 
 
+      <Header />
 
-      </div>
+     
+
+
+
+ 
 
 
  
@@ -79,6 +81,7 @@ const MyAnnoucements = () => {
       <div className='btn'>
         <button onClick={handleAddAnnouncement}>Dodaj ogłoszenie</button>
         </div>
+
       </div>
 
         <div className='annocuements'>

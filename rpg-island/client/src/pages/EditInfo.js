@@ -1,9 +1,9 @@
-import Nav from '../Components/Nav';
 import { useState, useEffect } from 'react';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Footer from '../Components/Footer';
+import Header from '../Components/Header';
 
 const EditInfo = () => {
     const [user, setUser] = useState(null);
@@ -75,14 +75,8 @@ return (
 
 
     <div className='main'> 
-    <div className='header'> 
 
-    <button className='button-special' onClick={handleGoBack}>Powrót do profilu</button>
-
-    <button className="button-special" onClick={logout}> Wyloguj </button>
-    
-    </div>
-
+    <Header />
 
 
         <div className="createAnnoucement">

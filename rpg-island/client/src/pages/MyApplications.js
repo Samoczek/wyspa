@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
 import Footer from '../Components/Footer';
+import Header from '../Components/Header';
 
 const MyApplications = () => {
     const [cookies, , removeCookie] = useCookies(['user']);
@@ -44,24 +45,16 @@ const MyApplications = () => {
 
   return (
     <div className='main'>
-      <div className='header'>
 
-      
 
-      <button className="button-special" onClick={logout}> Wyloguj </button>
-
-      </div>
+      <Header />
 
       <div className='home'>
         
 
         <div className='annocuements'>
 
-        <div className='container'>
-        <div className='btn'>
-        <button onClick={handleGoBack}>Powrót do ogłoszeń</button>
-        </div>
-        </div>
+
         <table>
 
         <thead>

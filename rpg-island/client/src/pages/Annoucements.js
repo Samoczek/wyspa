@@ -6,6 +6,7 @@ import ApplyButton from '../Components/ApplyButton';
 import '../index.css';
 import AuthModal from '../Components/AuthModal';
 import Footer from '../Components/Footer';
+import Header from '../Components/Header';
 
 const Annoucements = () => {
   const [cookies, , removeCookie] = useCookies(['user']);
@@ -61,9 +62,7 @@ const Annoucements = () => {
     navigate('/myApplications')
   }
 
-  const handleGoBack = () => {
-    navigate('/');
-  };
+
 
   const renderPageNumbers = () => {
     const totalPageNumbers = Math.ceil(posts.length / postsPerPage);
@@ -132,23 +131,9 @@ const Annoucements = () => {
 
   return (
     <div className='main'>
-      <div className='header'>
-
-            {!cookies.AuthToken && (
-                <button
-                    className="button-special"
-                    onClick={handleClicklog}
-                    disabled={showModal || cookies.AuthToken}
-                >
-                    Zaloguj
-                </button>
-            )}
-
-            <button className='button-special' onClick={handleGoBack}>Strona główna</button>
-
-            <button className="button-special" onClick={logout}> Wyloguj </button>
-
-      </div>
+      
+      
+      <Header />
 
 
 

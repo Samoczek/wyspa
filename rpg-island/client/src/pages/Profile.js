@@ -31,18 +31,7 @@ const Profile = () => {
         useEffect(() => {
             getUser();
         }, []);
-    
-        const logout = () => {
-            removeCookie('UserId');
-            removeCookie('AuthToken');
-            navigate ('/')
-            window.location.reload();
 
-        };
-    
-        const handleClickhome = () => {
-            navigate ('/')
-        };
 
         const handleEditInfo = () => {
             navigate ('/editinfo')
@@ -52,23 +41,21 @@ const Profile = () => {
 
             
 
-            <div>
-                <div className="header">
-                <button className='button-special'  onClick={handleEditInfo}>
-                        Edycja profilu
-                    </button>
-                
+            <div className='main'>
 
-                <button className='button-special' onClick={handleClickhome}>
-                        Strona Główna
-                    </button>
-                    <button className='button-special' onClick={logout}>
-                    {'Wyloguj'}
-                </button>
-
-                </div>
+            <Header />
 
                 <div className='home'>
+
+
+                <div className='container'>
+                    <div className='btn'>   
+                    <button className='special-button'  onClick={handleEditInfo}>
+                        Edycja profilu
+                    </button>
+                    </div>
+                </div>
+
 
                 <div className="profile">
                     {cookies.AuthToken && user && <p>Nazwa użytkonika: {user.username}</p>}
