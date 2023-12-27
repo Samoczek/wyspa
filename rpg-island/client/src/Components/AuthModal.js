@@ -5,7 +5,6 @@ import { useCookies } from 'react-cookie'
 
 const AuthModal = ({ setShowModal,  isSignUp }) => {
     const [email, setEmail] = useState(null)
-    const [username, setUsername] = useState(null)
     const [password, setPassword] = useState(null)
     const [confirmPassword, setConfirmPassword] = useState(null)
     const [error, setError] = useState(null)
@@ -44,16 +43,19 @@ const AuthModal = ({ setShowModal,  isSignUp }) => {
 
     }
 
+
     return (
         <div className="auth-modal">
             <div className="close-icon" onClick={handleClick}>ⓧ</div>
 
-            <h2>{isSignUp ? 'CREATE ACCOUNT': 'LOG IN'}</h2>
-            <p>By clicking Log In, you agree to our terms. Learn how we process your data in our Privacy Policy and Cookie Policy.</p>
+            <h2>{isSignUp ? 'Utwórz konto': 'Zaloguj się'}</h2>
             <form onSubmit={handleSubmit}>
                 <input
                     type="email"
                     id="email"
+                    pattern= "[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$"
+                    minLength={3}
+                    maxLength={64}
                     name="email"
                     placeholder="email"
                     required={true}
@@ -62,6 +64,7 @@ const AuthModal = ({ setShowModal,  isSignUp }) => {
                 <input
                     type="password"
                     id="password"
+                    pattern= "^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:])([^\s]){8,16}$"
                     name="password"
                     placeholder="password"
                     required={true}

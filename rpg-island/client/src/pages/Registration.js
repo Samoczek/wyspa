@@ -1,9 +1,9 @@
-
-import Nav from '../Components/Nav'
 import {useState} from 'react'
 import { useCookies } from 'react-cookie'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import Footer from '../Components/Footer';
+import Header from '../Components/Header';
 
 const Registration = () => {
     const [cookies, setCookie, removeCookie] = useCookies(null)
@@ -14,7 +14,6 @@ const Registration = () => {
         first_name: "",
         second_name: "",
         age: "",
-        show_gender: false,
         gender_identity: "man",
         url: "",
         about: "",
@@ -53,17 +52,14 @@ const handleChange = (e) => {
 
 return (
     <>
-        <Nav
-            minimal={true}
-            setShowModal={() => {
-            }}
-            showModal={false}
-        />
+        <Header />
 
 
-        <div className="onboarding">
-            <h2>CREATE ACCOUNT</h2>
+        <div className="main">
+            <div className='home'>
 
+            
+             <div className="createAnnoucement">
 
             <form onSubmit={handleSubmit}>
                 <section>
@@ -71,6 +67,9 @@ return (
                     <input
                         id="username"
                         type='text'
+                        pattern= "[a-zA-Z0-9_.-]+$"
+                        minLength={2}
+                        maxLength={16}
                         name="username"
                         placeholder="Nazwa użytkownika"
                         required={true}
@@ -83,6 +82,9 @@ return (
                     <input
                         id="first_name"
                         type='text'
+                        pattern= "[a-zA-Z]+$"
+                        minLength={2}
+                        maxLength={16}
                         name="first_name"
                         placeholder="Imie"
                         required={true}
@@ -95,6 +97,9 @@ return (
                     <input
                         id="second_name"
                         type='text'
+                        pattern= "[a-zA-Z]+$"
+                        minLength={2}
+                        maxLength={16}
                         name="second_name"
                         placeholder="Nazwisko"
                         required={true}
@@ -107,6 +112,9 @@ return (
                         <input
                             id="age"
                             type="number"
+                            pattern='[1-9][0-9]?[0-9]?'
+                            minLength={2}
+                            maxLength={16}
                             name="age"
                             placeholder="Wiek"
                             required={true}
@@ -145,18 +153,6 @@ return (
                         />
                         <label htmlFor="more-gender-identity">Inne</label>
                     </div>
-
-
-                    <label htmlFor="show-gender">Show Gender on my Profile</label>
-
-
-                    <input
-                        id="show-gender"
-                        type="checkbox"
-                        name="show_gender"
-                        onChange={handleChange}
-                        checked={formData.show_gender}
-                    />
 
 
                     <label htmlFor="about">O mnie</label>
@@ -198,8 +194,11 @@ return (
 
             </form>
 
+            </div>
 
+            </div>
 
+<Footer />
 
         </div>
    

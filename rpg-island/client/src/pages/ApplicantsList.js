@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
+import Footer from '../Components/Footer';
+import Header from '../Components/Header';
 
 const ApplicantsList = () => {
   const { postId } = useParams();
   const [applicants, setApplicants, setClickedUser] = useState([]);
   let navigate = useNavigate();
 
-  console.log(postId)
+
 
   const getApplicants = async () => {
     try {
@@ -22,10 +24,6 @@ const ApplicantsList = () => {
     getApplicants();
   }, [postId]);
 
-  const handleMyAnnoucements = () => {
-    navigate('/myAnnoucements');
-  };
-
   const handleChat = (userId) => {
     navigate(`/chat/${userId}`);
   };
@@ -33,12 +31,10 @@ const ApplicantsList = () => {
 
 
   return (
-    <div>
-      <h2>Zgłoszeni użytkownicy do ogłoszenia</h2>
-      <p>
-        <button onClick={handleMyAnnoucements}> Powrót </button>
-      </p>
-      
+    <div className='main'>
+      <Header />
+      <div className='home'>
+
       <ul>
   {applicants.map((applicant) => (
     <li key={applicant.userId}>
@@ -56,6 +52,9 @@ const ApplicantsList = () => {
   ))}
 </ul>
 
+      </div>
+      
+      <Footer />
     </div>
   );
 };

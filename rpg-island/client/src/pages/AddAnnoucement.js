@@ -79,6 +79,9 @@ return (
                     <input
                         id="nazwa_systemu"
                         type='text'
+                        pattern='[\s\S]*'
+                        minLength={3}
+                        maxLength={32}
                         name="nazwa_systemu"
                         placeholder="Nazwa Systemu"
                         required={true}
@@ -91,6 +94,7 @@ return (
                     <input
                         id="termin_sesji"
                         type='text'
+                        pattern='[0-3]?[0-9][.][0-1]?[0-9][.][0-9][0-9][0-9][0-9]'
                         name="termin_sesji"
                         placeholder="Termin sesji"
                         required={false}
@@ -103,6 +107,7 @@ return (
                     <input
                         id="ilosc_sesji"
                         type='text'
+                        pattern='[1-9][0-9]?[0-9]?'g
                         name="ilosc_sesji"
                         placeholder="Ilość sesji"
                         required={false}
@@ -115,6 +120,9 @@ return (
                         <input
                             id="dlugosc_sesji"
                             type="text"
+                            pattern='[\s\S]*'
+                            minLength={2}
+                            maxLength={32}
                             name="dlugosc_sesji"
                             placeholder="Długość sesji"
                             required={false}
@@ -126,6 +134,7 @@ return (
                         <input
                             id="ilosc_graczy"
                             type="text"
+                            pattern='[1-9][0-9]?'g
                             name="ilosc_graczy"
                             placeholder="Ilość poszukiwanych graczy"
                             required={false}
@@ -137,6 +146,9 @@ return (
                         <input
                             id="scenariusz"
                             type="text"
+                            pattern='[\s\S]*'
+                            minLength={3}
+                            maxLength={64}
                             name="scenariusz"
                             placeholder="Scenariusz"
                             required={false}
@@ -148,6 +160,9 @@ return (
                         <input
                             id="bhs"
                             type="text"
+                            pattern='[\s\S]*'
+                            minLength={3}
+                            maxLength={64}
                             name="bhs"
                             placeholder="BHS"
                             required={false}
@@ -160,6 +175,9 @@ return (
                         id="opis"
                         type="text"
                         name="opis"
+                        pattern='[\s\S]*'
+                        minLength={3}
+                        maxLength={512}
                         required={false}
                         placeholder="Opis..."
                         value={formData2.opis}

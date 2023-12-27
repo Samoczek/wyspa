@@ -20,7 +20,7 @@ const Header = ({  }) => {
         removeCookie('UserId');
         removeCookie('AuthToken');
         navigate('/');
-        window.location.reload();
+        //window.location.reload();
     };
 
     const getUser = async () => {

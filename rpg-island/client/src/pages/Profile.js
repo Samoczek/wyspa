@@ -58,7 +58,7 @@ const Profile = () => {
 
 
                 <div className="profile">
-                    {cookies.AuthToken && user && <p>Nazwa użytkonika: {user.username}</p>}
+                    {cookies.AuthToken && user && <p>Nazwa użytkownika: {user.username}</p>}
                     {cookies.AuthToken && user && <p>Email: {user.email}</p>}
                     {cookies.AuthToken && user && <p>Imie: {user.first_name}</p>}
                     {cookies.AuthToken && user && <p>Nazwisko: {user.second_name}</p>}

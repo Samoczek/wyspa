@@ -9,6 +9,8 @@ const ChatInput = ({ userData, getUserMessages, getClickedUsersMessages }) => {
     const clickedUserId = userData.user_id;
     const [user, setUser] = useState(null);
 
+
+
     const getUser = async () => {
         try {
             const response = await axios.get('http://localhost:8000/user', {
@@ -48,7 +50,7 @@ const ChatInput = ({ userData, getUserMessages, getClickedUsersMessages }) => {
     return (
         <div className="chat-input">
             <textarea value={textArea} onChange={(e) => setTextArea(e.target.value)}/>
-            <button className="secondary-button" onClick={addMessage}>Submit</button>
+            <button className="secondary-button" onClick={addMessage}>Wyślij</button>
         </div>
     )
 }

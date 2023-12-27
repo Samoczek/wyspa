@@ -4,7 +4,6 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import ApplyButton from '../Components/ApplyButton';
 import '../index.css';
-import AuthModal from '../Components/AuthModal';
 import Footer from '../Components/Footer';
 import Header from '../Components/Header';
 
@@ -181,7 +180,7 @@ const Annoucements = () => {
           <td>{post.scenariusz}</td>
           <td>{post.bhs}</td>
           <td>
-                  <ApplyButton postId={post._id} postname={post.nazwa_systemu} userId={generatedPostId} />
+                  <ApplyButton postId={post._id} postname={post.nazwa_systemu} userId={generatedPostId} postUserId={post.user_id} />
                 </td>
         </tr>
         

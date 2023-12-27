@@ -558,3 +558,60 @@ tbody tr:hover {
 
 
 /* Dodawanie ogłoszenia */
+
+/* Container */
+.chat-container {
+    width: 100%;
+    max-width: 600px; /* You can adjust this width as per your requirement */
+    margin: 0 auto;
+    padding: 20px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+  }
+  
+  /* Chat Display */
+  .chat-display {
+    max-height: 400px; /* You can adjust the height or set to auto for dynamic content */
+    overflow-y: auto; /* This will allow vertical scrolling if content exceeds the container height */
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+  }
+  
+  .chat-display div {
+    margin-bottom: 10px;
+  }
+  
+  .chat-display h4 {
+    margin: 0;
+    color: #333;
+    font-size: 16px;
+  }
+  
+  .chat-display p {
+    margin: 0;
+    padding-left: 10px;
+    color: #555;
+    font-size: 14px;
+  }
+  
+  /* Chat Input */
+  .chat-input {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+  }
+  
+  .chat-input textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    resize: vertical; /* This allows vertical resizing of the textarea */
+  }
+  

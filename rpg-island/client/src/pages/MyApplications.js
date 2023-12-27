@@ -8,7 +8,7 @@ import Header from '../Components/Header';
 const MyApplications = () => {
     const [cookies, , removeCookie] = useCookies(['user']);
   const { postId } = useParams();
-  const [ applications, setPosts ] = useState([]);
+  const [ applications, setPosts, SetPostInfo ] = useState([]);
   const userId = cookies.UserId; 
   let navigate = useNavigate();
 
@@ -24,21 +24,27 @@ const MyApplications = () => {
     }
   };
 
+  const getPostInfo = async () => {
+    try {
+      const response = await axios.get(`http://localhost:8000/chat2post`, {
+        params: { postId },
+        withCredentials: true,
+      });
+
+      SetPostInfo(response.data);
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     getPosts();
+    getPostInfo();
   }, [userId]);
-  
-  const logout = () => {
-    removeCookie('UserId', cookies.UserId);
-    removeCookie('AuthToken', cookies.AuthToken);
-    navigate('/');
-  };
-
-  const handleGoBack = () => {
-    navigate('/annoucements');
-  };
 
   const handleChat = (userId) => {
+    console.log(userId)
     navigate(`/chat/${userId}`);
   };
 
@@ -68,7 +74,7 @@ const MyApplications = () => {
         {applications.map((applicant) => (
             <tr key={applicant._id}>
                 <td> {applicant.postname} </td>
-                <td><button className='ApplyButton' onClick={() => handleChat(applicant.userId)}>Przejdź do chatu</button></td>
+                <td><button className='ApplyButton' onClick={() => handleChat(applicant.postUserId)}>Przejdź do chatu</button></td>
       
             </tr>
         ))}

@@ -113,7 +113,6 @@ app.post('/login', async (req, res) => {
         const users = database.collection('users')
 
         const user = await users.findOne({email})
-
         const correctPassword = await bcrypt.compare(password, user.hashed_password)
 
         if (user && correctPassword) {
@@ -258,8 +257,6 @@ app.put('/post', async (req, res) => {
   
     const client = new MongoClient(uri);
 
-
-
     try {
       await client.connect();
       const database = client.db('app-data');
@@ -403,7 +400,7 @@ app.post('/apply', async (req, res) => {
       const database = client.db('app-data');
       const applications = database.collection('applications');
   
-      const { postId, userId, postname } = req.body;
+      const { postId, userId, postname, postUserId } = req.body;
   
       // Sprawdź, czy użytkownik już jest zapisany do tego ogłoszenia
       const existingApplication = await applications.findOne({ postId, userId });
@@ -413,7 +410,7 @@ app.post('/apply', async (req, res) => {
       }
   
       // Zapisz użytkownika do ogłoszenia
-      await applications.insertOne({ postId, userId, postname });
+      await applications.insertOne({ postId, userId, postname, postUserId });
   
       res.status(201).json({ message: 'Zapisano użytkownika do ogłoszenia pomyślnie.' });
     } catch (error) {
@@ -499,7 +496,25 @@ app.get('/applicants/:postId', async (req, res) => {
   }
 });
 
-  
+app.get('/userchat', async (req, res) => {
+  const client = new MongoClient(uri)
+  const postUserId = req.query.postUserId
+
+  try {
+      await client.connect()
+      const database = client.db('app-data')
+      const users = database.collection('users')
+
+      const query = {user_id: postUserId}
+      const user = await users.findOne(query)
+      res.send(user)
+
+      console.log(postUserId)
+  } finally {
+      await client.close()
+  }
+})
+
 
   
   

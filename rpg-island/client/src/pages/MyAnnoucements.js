@@ -40,9 +40,6 @@ const MyAnnoucements = () => {
     navigate('/addAnnoucement');
   };
 
-  const handleGoBack = () => {
-    navigate('/annoucements');
-  };
 
   const handleDeleteAnnouncement = async (postId) => {
     try {
@@ -95,7 +92,6 @@ const MyAnnoucements = () => {
               <th>Ilość Graczy</th>
               <th>Scenariusz</th>
               <th>BHS</th>
-              <th>Opis</th>
               <th>Akcje</th>
             </tr>
           </thead>
@@ -109,7 +105,6 @@ const MyAnnoucements = () => {
                 <td>{post.ilosc_graczy}</td>
                 <td>{post.scenariusz}</td>
                 <td>{post.bhs}</td>
-                <td>{post.opis}</td>
                 <td>
                   <button className='ApplyButton' onClick={() => handleDeleteAnnouncement(post._id)}>Usuń</button>
                   <button className='ApplyButton' onClick={() => handleViewApplicants(post._id)}>Zobacz zgłoszenia</button>

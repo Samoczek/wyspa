@@ -1,8 +1,10 @@
 import ChatInput from '../Chat/ChatInput'
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
+import Footer from '../Components/Footer';
+import Header from '../Components/Header';
 
 const Chat = () => {
   const [cookies, removeCookie] = useCookies(['user']);
@@ -11,7 +13,6 @@ const Chat = () => {
   const MyUserId = cookies.UserId;
   const [usersMessages, setUsersMessages] = useState(null)
   const [clickedUsersMessages, setClickedUsersMessages] = useState(null)
-  let navigate = useNavigate();
 
 
   const getUser = async () => {
@@ -90,19 +91,11 @@ const Chat = () => {
   const descendingOrderMessages = messages?.sort((a, b) => a.timestamp.localeCompare(b.timestamp));
 
   
-  const handleMyAnnoucements = () => {
-    navigate('/myAnnoucements');
-  };
 
   return (
     <div className='main'>
-      <div className='header'>
 
-
-      </div>
-      <p>
-        <button onClick={handleMyAnnoucements}> Powrót </button>
-      </p>
+        <Header />
 
     <div className='home'>
 
@@ -139,11 +132,12 @@ const Chat = () => {
       </>
   
  </div>
+
  </div>  
         
 
 
-
+                  <Footer />
 
     </div>
   );
