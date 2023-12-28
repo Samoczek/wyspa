@@ -369,41 +369,6 @@ a {
 
 /*--- Strony z ogłoszeniami --- */
   
-  
-  
-
-
-/*-------- Navbar --------*/
-
-nav {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    text-align: center;
-    background: #1abc9ce0;
-    color: white;
-    font-size: 30px;
-    height: 90px;
-}
-
-
-
-nav .nav-button:disabled {
-    background-color: rgb(181, 180, 180);
-    color: rgb(189, 42, 90);
-}
-
-nav .logo-container {
-    height: 200px;
-    margin-right: 15px;
-}
-
-nav .logo-container .logo {
-    width: 50%;
-}
-
-
-
 /*-------- Auth Modal --------*/
 .auth-modal {
     z-index: 1000;
@@ -614,4 +579,20 @@ tbody tr:hover {
     border-radius: 4px;
     resize: vertical; /* This allows vertical resizing of the textarea */
   }
+
+  /*-------- ShowDetails --------*/
+.details {
+    z-index: 1000;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 140px;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 360px;
+    height: 600px;
+    background-color: rgb(129, 126, 126);
+    border-radius: 10px;
+    padding: 40px;
+}
   

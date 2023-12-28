@@ -1,31 +1,19 @@
-import Footer from '../Components/Footer';
-import Header from '../Components/Header';
+import Footer from "../Components/Footer";
+import Header from "../Components/Header";
+import ScrollTop from "../Components/ScrollTop";
 
 const Home = () => {
+  return (
+    <div className="main">
+      <Header />
 
+      <div className="home"></div>
 
-    return (
-      <div className='main'>
-      
-        <Header />
+      <ScrollTop />
 
-        <div className="home">
-
-
-
-
-        </div>
-        
-        <a id="back-to-top" href="#">👆🏼</a>
-        <Footer />
-                
-                
-      </div>
-
-    
-        
-    );
-                };
-    
+      <Footer />
+    </div>
+  );
+};
 
 export default Home;
