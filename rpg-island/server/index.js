@@ -16,6 +16,8 @@ app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 
+
+
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
   res.setHeader("Access-Control-Allow-Credentials", "true");
@@ -95,7 +97,6 @@ app.delete("/post/:id", async (req, res) => {
 app.get("/onePost/:id", async (req, res) => {
   const client = new MongoClient(uri);
   const postId = req.params.id;
-  console.log(postId)
 
   try {
     await client.connect();
@@ -532,5 +533,28 @@ app.get("/applicants/:postId", async (req, res) => {
     await client.close();
   }
 });
+
+// Endpoint do usuwania aplikacji
+app.delete('/deleteApplication/:id', async (req, res) => {
+  const client = new MongoClient(uri);
+  const idToDelete = req.params.id;
+
+  try {
+    await client.connect();
+    const database = client.db("app-data");
+    const applications = database.collection("applications");
+
+    await applications.deleteOne({ _id: new ObjectId(idToDelete) });
+
+    // Po pomyślnym usunięciu, zwróć odpowiedni status
+    res.status(200).json({ message: "Aplikacja została pomyślnie usunięta." });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Wystąpił błąd podczas usuwania ogłoszenia." });
+  } finally {
+    await client.close();
+  }
+});
+
 
 app.listen(PORT, () => console.log("server running on PORT " + PORT));

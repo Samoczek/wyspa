@@ -32,12 +32,6 @@ const MyAnnoucements = () => {
     getPosts();
   }, [userId]);
 
-  const logout = () => {
-    removeCookie("UserId", cookies.UserId);
-    removeCookie("AuthToken", cookies.AuthToken);
-    navigate("/");
-  };
-
   const handleAddAnnouncement = () => {
     navigate("/addAnnoucement");
   };
