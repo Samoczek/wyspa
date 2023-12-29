@@ -14,17 +14,12 @@
     "react-scripts": "^5.0.1",
     "web-vitals": "^2.1.4"
   },
-<<<<<<< HEAD
+
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     },
-=======
-"scripts": {
-  "start": "react-scripts start",
-  "build": "react-scripts build",
-  },
->>>>>>> b12c7ea322d4a85e1b2c5e5b305589369263687c
+
   "eslintConfig": {
     "extends": [
       "react-app",
