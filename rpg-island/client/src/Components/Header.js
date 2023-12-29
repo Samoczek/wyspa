@@ -9,7 +9,7 @@ import axios from "axios";
 const Header = ({}) => {
   const [user, setUser] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  const [isSignUp, setIsSignUp] = useState(true);
+  const [isSignUp, setIsSignUp] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
   const userId = cookies.UserId;
   const AuthToken = false;
@@ -41,6 +41,7 @@ const Header = ({}) => {
   const handleClick = () => {
     setShowModal(true);
     setIsSignUp(true);
+    
   };
 
   const handleClickprofile = () => {
