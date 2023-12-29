@@ -7,9 +7,8 @@ import Footer from "../Components/Footer";
 import Header from "../Components/Header";
 import ScrollTop from "../Components/ScrollTop";
 
-
 const MyAnnoucements = () => {
-  const [cookies, , removeCookie] = useCookies(["user"]);
+  const [cookies] = useCookies(["user"]);
   const [posts, setPosts] = useState([]);
   const userId = cookies.UserId;
   const navigate = useNavigate();
@@ -54,6 +53,10 @@ const MyAnnoucements = () => {
     navigate(`/applicantsList/${postId}`);
   };
 
+  const handleNavigateEditPost = (postId) => {
+    navigate(`/editPost/${postId}`);
+  }
+
   return (
     <div className="main">
       <Header />
@@ -96,11 +99,19 @@ const MyAnnoucements = () => {
                     >
                       Usuń
                     </button>
+
                     <button
                       className="ApplyButton"
                       onClick={() => handleViewApplicants(post._id)}
                     >
                       Zobacz zgłoszenia
+                    </button>
+
+                    <button
+                      className="ApplyButton"
+                      onClick={() => handleNavigateEditPost(post._id)}
+                    >
+                      Edytuj ogłoszenie
                     </button>
                   </td>
                 </tr>

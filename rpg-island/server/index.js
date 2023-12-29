@@ -111,7 +111,7 @@ app.get("/onePost/:id", async (req, res) => {
   }
 });
 
-// Dodatkowo, dodaj kod do obsługi błędów, jeśli nie jest jeszcze dodany
+/* // Dodatkowo, dodaj kod do obsługi błędów, jeśli nie jest jeszcze dodany
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send("Something went wrong!");
@@ -121,7 +121,7 @@ app.use((err, req, res, next) => {
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send("Something went wrong!");
-});
+}); */
 
 // Log in to the Database
 app.post("/login", async (req, res) => {
@@ -262,6 +262,44 @@ app.put("/post", async (req, res) => {
     await client.close();
   }
 });
+
+app.put("/postedit/:postId", async (req, res) => {
+  const client = new MongoClient(uri);
+  const formData2 = req.body.formData2;
+
+
+  try {
+    await client.connect();
+    const database = client.db("app-data");
+    const posts = database.collection("post");
+
+    // Sprawdzenie, czy post o danym generatedPostId istnieje
+    const existingPost = await posts.findOne({ user_id: formData2.user_id });
+
+    if (existingPost) {
+      // Usuń puste pola z obiektu `updateDocument`
+      const updateDocument = {};
+      for (const field in formData2) {
+        if (
+          formData2[field] !== undefined &&
+          formData2[field] !== null &&
+          formData2[field] !== ""
+        ) {
+          updateDocument[field] = formData2[field];
+        }
+      }
+
+      const result = await posts.updateOne({ user_id: formData2.user_id }, { $set: updateDocument });
+      res.json(result);
+    } else {
+      res.status(400).json({ error: "Post o podanym generatedPostId nie istnieje." });
+    }
+
+  } finally {
+    await client.close();
+  }
+});
+
 
 app.get("/posts", async (req, res) => {
   const client = new MongoClient(uri);

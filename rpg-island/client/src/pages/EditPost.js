@@ -1,12 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import Footer from "../Components/Footer";
 import Header from "../Components/Header";
 import ScrollTop from "../Components/ScrollTop";
 
-const AddAnnoucement = () => {
+
+const EditPost = () => {
+  const [onePost, setPost] = useState(null);
+  const { postId }  = useParams();
   const [cookies, setCookie, removeCookie] = useCookies(null);
   const [formData2, setFormData] = useState({
     user_id: cookies.UserId,
@@ -29,13 +32,12 @@ const AddAnnoucement = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put("http://localhost:8000/post", {
+      const response = await axios.put(`http://localhost:8000/postedit/${postId}`, {
         formData2,
       });
       const success = response.status === 200;
       if (success) {
-        // Po udanym dodaniu ogłoszenia przekieruj do odpowiedniego miejsca
-        navigate("/annoucements");
+        navigate("/myAnnoucements");
       }
     } catch (err) {
       console.log(err);
@@ -52,6 +54,23 @@ const AddAnnoucement = () => {
       [name]: value,
     }));
   };
+
+  const getPost = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8000/onePost/${postId}`
+      );
+
+      setPost(response.data);
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getPost();
+  }, [postId]);
 
   return (
     <div className="main">
@@ -71,8 +90,8 @@ const AddAnnoucement = () => {
                 minLength={3}
                 maxLength={32}
                 name="nazwa_systemu"
-                placeholder="Nazwa Systemu"
-                required={true}
+                placeholder={onePost?.nazwa_systemu}
+                required={false}
                 value={formData2.nazwa_systemu}
                 onChange={handleChange}
               />
@@ -84,7 +103,7 @@ const AddAnnoucement = () => {
                 pattern="[0-3]?[0-9][.][0-1]?[0-9][.][0-9][0-9][0-9][0-9]"
                 name="termin_sesji"
                 placeholder="Termin sesji"
-                required={true}
+                required={false}
                 value={formData2.termin_sesji}
                 onChange={handleChange}
               />
@@ -97,7 +116,7 @@ const AddAnnoucement = () => {
                 g
                 name="ilosc_sesji"
                 placeholder="Ilość sesji"
-                required={true}
+                required={false}
                 value={formData2.ilosc_sesji}
                 onChange={handleChange}
               />
@@ -111,7 +130,7 @@ const AddAnnoucement = () => {
                 maxLength={32}
                 name="dlugosc_sesji"
                 placeholder="Długość sesji"
-                required={true}
+                required={false}
                 value={formData2.dlugosc_sesji}
                 onChange={handleChange}
               />
@@ -124,7 +143,7 @@ const AddAnnoucement = () => {
                 g
                 name="ilosc_graczy"
                 placeholder="Ilość poszukiwanych graczy"
-                required={true}
+                required={false}
                 value={formData2.ilosc_graczy}
                 onChange={handleChange}
               />
@@ -138,7 +157,7 @@ const AddAnnoucement = () => {
                 maxLength={64}
                 name="scenariusz"
                 placeholder="Scenariusz"
-                required={true}
+                required={false}
                 value={formData2.scenariusz}
                 onChange={handleChange}
               />
@@ -152,7 +171,7 @@ const AddAnnoucement = () => {
                 maxLength={64}
                 name="bhs"
                 placeholder="BHS"
-                required={true}
+                required={false}
                 value={formData2.bhs}
                 onChange={handleChange}
               />
@@ -165,7 +184,7 @@ const AddAnnoucement = () => {
                 pattern="[\s\S]*"
                 minLength={3}
                 maxLength={512}
-                required={true}
+                required={false}
                 placeholder="Opis..."
                 value={formData2.opis}
                 onChange={handleChange}
@@ -199,4 +218,4 @@ const AddAnnoucement = () => {
   );
 };
 
-export default AddAnnoucement;
+export default EditPost;
