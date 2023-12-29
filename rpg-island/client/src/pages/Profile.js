@@ -59,6 +59,11 @@ const Profile = () => {
           {cookies.AuthToken && user && <p>Płeć: {user.gender_identity}</p>}
           {cookies.AuthToken && user && <p>Wiek: {user.age}</p>}
           {cookies.AuthToken && user && <p>Info: {user.about}</p>}
+          {cookies.AuthToken && user && user.url && (
+            <div className="url-container">
+              <img src={user.url} alt="User Profile" className="profile-url" />
+            </div>
+          )}
           {showModal && (
             <AuthModal setShowModal={setShowModal} isSignUp={isSignUp} />
           )}

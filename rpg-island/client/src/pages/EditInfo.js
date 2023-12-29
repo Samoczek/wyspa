@@ -33,21 +33,34 @@ const EditInfo = () => {
         formData,
       });
       const success = response.status === 200;
-      if (success) navigate("/");
+      if (success) navigate("/profile");
     } catch (err) {
       console.log(err);
     }
   };
 
   const handleChange = (e) => {
-    const value =
-      e.target.type === "checkbox" ? e.target.checked : e.target.value;
-    const name = e.target.name;
+    if (e.target.type === "file") {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setFormData((prevState) => ({
+            ...prevState,
+            url: reader.result,
+          }));
+        };
+        reader.readAsDataURL(file);  
+      }
+    } else {
+      const value = e.target.type === "checkbox" ? e.target.checked : e.target.value;
+      const name = e.target.name;
 
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
+      setFormData((prevState) => ({
+        ...prevState,
+        [name]: value,
+      }));
+    }
   };
 
   const getUser = async () => {
@@ -165,13 +178,13 @@ const EditInfo = () => {
           <section>
             <label htmlFor="url">Ikona na profilu</label>
             <input
-              type="url"
+              type="file"
               name="url"
               id="url"
               onChange={handleChange}
               required={false}
             />
-            <div className="photo-container">
+            <div className="url-container">
               {formData.url && (
                 <img src={formData.url} alt="profile pic preview" />
               )}

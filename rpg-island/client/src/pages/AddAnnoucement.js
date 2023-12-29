@@ -8,7 +8,7 @@ import ScrollTop from "../Components/ScrollTop";
 
 const AddAnnoucement = () => {
   const [cookies, setCookie, removeCookie] = useCookies(null);
-  const [formData2, setFormData] = useState({
+  const [formData2, setFormData2] = useState({
     user_id: cookies.UserId,
     nazwa_systemu: "",
     termin_sesji: "",
@@ -43,14 +43,28 @@ const AddAnnoucement = () => {
   };
 
   const handleChange = (e) => {
-    const value =
-      e.target.type === "checkbox" ? e.target.checked : e.target.value;
-    const name = e.target.name;
+    if (e.target.type === "file") {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setFormData2((prevState) => ({
+            ...prevState,
+            url: reader.result,
+          }));
+        };
+        reader.readAsDataURL(file);
+      }
+    } else {
+      const value =
+        e.target.type === "checkbox" ? e.target.checked : e.target.value;
+      const name = e.target.name;
 
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
+      setFormData2((prevState) => ({
+        ...prevState,
+        [name]: value,
+      }));
+    }
   };
 
   return (
@@ -177,13 +191,13 @@ const AddAnnoucement = () => {
             <section>
               <label htmlFor="url">Ikona ogłoszenia</label>
               <input
-                type="url"
+                type="file"
                 name="url"
                 id="url"
                 onChange={handleChange}
                 required={false}
               />
-              <div className="photo-container">
+              <div className="url-container">
                 {formData2.url && (
                   <img src={formData2.url} alt="profile pic preview" />
                 )}
