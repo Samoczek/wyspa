@@ -6,7 +6,6 @@ import Footer from "../Components/Footer";
 import Header from "../Components/Header";
 import ScrollTop from "../Components/ScrollTop";
 
-
 const EditInfo = () => {
   const [user, setUser] = useState(null);
   const [cookies, setCookie, removeCookie] = useCookies(null);
@@ -33,22 +32,36 @@ const EditInfo = () => {
         formData,
       });
       const success = response.status === 200;
-      if (success) navigate("/");
+      if (success) navigate("/profile");
     } catch (err) {
       console.log(err);
     }
   };
 
   const handleChange = (e) => {
-    const value =
-      e.target.type === "checkbox" ? e.target.checked : e.target.value;
-    const name = e.target.name;
-
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
+    if (e.target.type === "file") {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setFormData((prevState) => ({
+            ...prevState,
+            url: reader.result,
+          }));
+        };
+        reader.readAsDataURL(file);  
+      }
+    } else {
+      const value = e.target.type === "checkbox" ? e.target.checked : e.target.value;
+      const name = e.target.name;
+  
+      setFormData((prevState) => ({
+        ...prevState,
+        [name]: value,
+      }));
+    }
   };
+  
 
   const getUser = async () => {
     try {
@@ -68,7 +81,7 @@ const EditInfo = () => {
   const handleCheckboxChange = (event) => {
     setFormData({
       ...formData,
-      [event.target.name]: event.target.checked
+      [event.target.name]: event.target.checked,
     });
   };
 
@@ -163,17 +176,17 @@ const EditInfo = () => {
           </section>
 
           <section>
-            <label htmlFor="url">Ikona na profilu</label>
+            <label htmlFor="photo">Ikona na profilu</label>
             <input
-              type="url"
-              name="url"
-              id="url"
+              type="file"
+              name="photo"
+              id="photo"
               onChange={handleChange}
               required={false}
             />
             <div className="photo-container">
-              {formData.url && (
-                <img src={formData.url} alt="profile pic preview" />
+              {formData.photo && (
+                <img src={formData.photo} alt="profile pic preview" />
               )}
             </div>
           </section>

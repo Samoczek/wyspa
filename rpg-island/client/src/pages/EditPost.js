@@ -6,12 +6,11 @@ import Footer from "../Components/Footer";
 import Header from "../Components/Header";
 import ScrollTop from "../Components/ScrollTop";
 
-
 const EditPost = () => {
   const [onePost, setPost] = useState(null);
-  const { postId }  = useParams();
+  const { postId } = useParams();
   const [cookies, setCookie, removeCookie] = useCookies(null);
-  const [formData2, setFormData] = useState({
+  const [formData2, setFormData2] = useState({
     user_id: cookies.UserId,
     nazwa_systemu: "",
     termin_sesji: "",
@@ -32,9 +31,12 @@ const EditPost = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put(`http://localhost:8000/postedit/${postId}`, {
-        formData2,
-      });
+      const response = await axios.put(
+        `http://localhost:8000/postedit/${postId}`,
+        {
+          formData2,
+        }
+      );
       const success = response.status === 200;
       if (success) {
         navigate("/myAnnoucements");
@@ -45,15 +47,30 @@ const EditPost = () => {
   };
 
   const handleChange = (e) => {
-    const value =
-      e.target.type === "checkbox" ? e.target.checked : e.target.value;
-    const name = e.target.name;
+    if (e.target.type === "file") {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setFormData2((prevState) => ({
+            ...prevState,
+            url: reader.result,
+          }));
+        };
+        reader.readAsDataURL(file);
+      }
+    } else {
+      const value =
+        e.target.type === "checkbox" ? e.target.checked : e.target.value;
+      const name = e.target.name;
 
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
+      setFormData2((prevState) => ({
+        ...prevState,
+        [name]: value,
+      }));
+    }
   };
+
 
   const getPost = async () => {
     try {
@@ -194,17 +211,17 @@ const EditPost = () => {
             </section>
 
             <section>
-              <label htmlFor="url">Ikona ogłoszenia</label>
+              <label htmlFor="photo">Ikona ogłoszenia</label>
               <input
-                type="url"
-                name="url"
-                id="url"
+                type="file"
+                name="photo"
+                id="photo"
                 onChange={handleChange}
                 required={false}
               />
               <div className="photo-container">
-                {formData2.url && (
-                  <img src={formData2.url} alt="profile pic preview" />
+                {formData2.photo && (
+                  <img src={formData2.photo} alt="profile pic preview" />
                 )}
               </div>
             </section>
