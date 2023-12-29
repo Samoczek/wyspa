@@ -140,13 +140,15 @@ app.post("/login", async (req, res) => {
     );
 
     if (user && correctPassword) {
-      const token = jwt.sign(user, email, {
-        expiresIn: 60 * 24,
+      const token = jwt.sign(user.user_id, email, {
+       // expiresIn: '1d',
       });
-      console.log(token)
       res.status(201).json({ token, userId: user.user_id });
-    }
 
+    } else {
+      res.status(400).json("Invalid Credentials");
+    }
+    
     res.status(400).json("Invalid Credentials");
   } catch (err) {
     console.log(err);

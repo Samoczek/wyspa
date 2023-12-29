@@ -29,7 +29,6 @@ const AuthModal = ({ setShowModal, isSignUp }) => {
         `http://localhost:8000/${isSignUp ? "signup" : "login"}`,
         { email, password }
       );
-        
       setCookie("UserId", response.data.userId);
       setCookie("AuthToken", response.data.token);
 
