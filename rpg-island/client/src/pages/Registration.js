@@ -6,6 +6,7 @@ import Footer from "../Components/Footer";
 import Header from "../Components/Header";
 import ScrollTop from "../Components/ScrollTop";
 
+
 const Registration = () => {
   const [cookies, setCookie, removeCookie] = useCookies(null);
 
@@ -16,7 +17,7 @@ const Registration = () => {
     second_name: "",
     age: "",
     gender_identity: "man",
-    photo: "",
+    url: "",
     about: "",
   });
 
@@ -36,29 +37,16 @@ const Registration = () => {
   };
 
   const handleChange = (e) => {
-    if (e.target.type === "file") {
-      const file = e.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          setFormData((prevState) => ({
-            ...prevState,
-            url: reader.result,
-          }));
-        };
-        reader.readAsDataURL(file);  
-      }
-    } else {
-      const value = e.target.type === "checkbox" ? e.target.checked : e.target.value;
-      const name = e.target.name;
-  
-      setFormData((prevState) => ({
-        ...prevState,
-        [name]: value,
-      }));
-    }
+    console.log("e", e);
+    const value =
+      e.target.type === "checkbox" ? e.target.checked : e.target.value;
+    const name = e.target.name;
+
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
   };
-  
 
   return (
     <>
@@ -155,17 +143,17 @@ const Registration = () => {
               </section>
 
               <section>
-                <label htmlFor="photo">Ikona na profilu</label>
+                <label htmlFor="url">Ikona na profilu</label>
                 <input
-                  type="file"
-                  name="photo"
-                  id="photo"
-                  onChange={handleChange} 
+                  type="url"
+                  name="url"
+                  id="url"
+                  onChange={handleChange}
                   required={false}
                 />
                 <div className="photo-container">
-                  {formData.photo && (
-                    <img src={formData.photo} alt="profile pic preview" />
+                  {formData.url && (
+                    <img src={formData.url} alt="profile pic preview" />
                   )}
                 </div>
               </section>
