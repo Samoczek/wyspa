@@ -1,6 +1,6 @@
 import ChatInput from "../Components/ChatInput";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useCookies } from "react-cookie";
@@ -15,6 +15,7 @@ const Chat = () => {
   const MyUserId = cookies.UserId;
   const [usersMessages, setUsersMessages] = useState(null);
   const [clickedUsersMessages, setClickedUsersMessages] = useState(null);
+  const chatDisplayRef = useRef(null);
 
   const getUser = async () => {
     try {
@@ -62,6 +63,10 @@ const Chat = () => {
     getClickedUsersMessages();
   }, []);
 
+  useEffect(() => {
+    chatDisplayRef.current.scrollTop = chatDisplayRef.current.scrollHeight;
+  }, [usersMessages, clickedUsersMessages]);
+
   const messages = [];
 
   usersMessages?.forEach((message) => {
@@ -96,7 +101,7 @@ const Chat = () => {
 
       <div className="home">
         {userData ? (
-          <>
+          <div className="UserChatInfo">
             <h2>
               Chat z użytkownikiem {userData.first_name} {userData.second_name}
             </h2>
@@ -105,14 +110,14 @@ const Chat = () => {
             <p>Wiek: {userData.age}</p>
             <p>O mnie: {userData.about}</p>
             <p>Płeć: {userData.gender_identity}</p>
-          </>
+          </div>
         ) : (
-          <p>Ładowanie danych...</p>
+          <p className="loading">Ładowanie danych...</p>
         )}
-        <div>
+
+        <div className="chat-container">
           <>
-            <p>CHAT!</p>
-            <div className="chat-display">
+            <div className="chat-display" ref={chatDisplayRef}>
               {descendingOrderMessages.map((message, _index) => (
                 <div key={_index}>
                   <h4>{message.username}</h4>

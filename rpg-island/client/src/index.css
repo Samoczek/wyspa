@@ -1,20 +1,11 @@
-@media (prefers-color-scheme: dark) {
-	:root {
-		--color-background: #090b10;
-		--color-heading: #80cbc4;
-		--color-paragraph: #7782b6; 
-		--color-accent: #80cbc4;
-		--color-accent-bright: #90e4dc;
-		--color-accent-alpha: #90e4dc24;
-		--color-img-shadow: #90e4dc24;
-	}
-}
+
 
 
 html, body {
     margin: 0;
     padding: 0;
-    background-image: url("./resources/wyspa.png");
+    /*background-image: url("./resources/wyspa.png");*/
+    
     background-attachment: fixed;
     background-position: center;
     background-repeat: no-repeat;
@@ -524,22 +515,26 @@ tbody tr:hover {
 
 /* Dodawanie ogłoszenia */
 
-/* Container */
+
+/* Chat */
+
+
 .chat-container {
-    width: 100%;
-    max-width: 600px; /* You can adjust this width as per your requirement */
-    margin: 0 auto;
+    float:right;
+    width: 65%;
+    max-width: 1200px; 
+    margin: 30px;
+
     padding: 20px;
     box-sizing: border-box;
     border: 1px solid #ccc;
     border-radius: 8px;
     background-color: #f9f9f9;
   }
-  
-  /* Chat Display */
+
   .chat-display {
-    max-height: 400px; /* You can adjust the height or set to auto for dynamic content */
-    overflow-y: auto; /* This will allow vertical scrolling if content exceeds the container height */
+    max-height: 800px; 
+    overflow-y: auto; 
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 5px;
@@ -547,7 +542,8 @@ tbody tr:hover {
   }
   
   .chat-display div {
-    margin-bottom: 10px;
+    margin: 10px;
+    padding: 5px;
   }
   
   .chat-display h4 {
@@ -573,12 +569,13 @@ tbody tr:hover {
   }
   
   .chat-input textarea {
-    width: 100%;
+    width: 98%;
     padding: 8px;
     border: 1px solid #ddd;
     border-radius: 4px;
-    resize: vertical; /* This allows vertical resizing of the textarea */
+    resize: vertical; 
   }
+
 
   /*-------- ShowDetails --------*/
 .details {
@@ -594,5 +591,23 @@ tbody tr:hover {
     background-color: rgb(129, 126, 126);
     border-radius: 10px;
     padding: 40px;
+}
+
+.UserChatInfo {
+    float:left;
+    width: 25%;
+    padding: 30px;
+    color: white;
+    text-shadow:
+        0.07em 0 black,
+        0 0.07em black,
+        -0.07em 0 black,
+        0 -0.07em black;
+}
+
+.loading {
+    padding-top:50px;
+    padding-left:30px;
+    color: white;
 }
   

@@ -25,6 +25,9 @@ const ChatInput = ({ userData, getUserMessages, getClickedUsersMessages }) => {
   }, []);
 
   const addMessage = async () => {
+    if (!textArea.trim()) {
+      return;
+    }
     const message = {
       timestamp: new Date().toISOString(),
       from_userId: userId,
@@ -49,7 +52,7 @@ const ChatInput = ({ userData, getUserMessages, getClickedUsersMessages }) => {
         value={textArea}
         onChange={(e) => setTextArea(e.target.value)}
       />
-      <button className="secondary-button" onClick={addMessage}>
+      <button className="send-button" onClick={addMessage}>
         Wyślij
       </button>
     </div>

@@ -48,6 +48,8 @@ const MyApplications = () => {
     navigate(`/chat/${userId}`);
   };
 
+  console.log(applications)
+
   return (
     <div className="main">
       <Header />
@@ -58,6 +60,9 @@ const MyApplications = () => {
             <thead>
               <tr>
                 <th>Nazwa Systemu</th>
+                <th>Scenariusz</th>
+                <th>Chat</th>
+                <th>Usuń</th>
               </tr>
             </thead>
 
@@ -65,6 +70,7 @@ const MyApplications = () => {
             {applications.map((applicant) => (
   <tr key={applicant._id}>
     <td>{applicant.postname}</td>
+    <td>{applicant.postscenario}</td>
     <td>
       <button
         className="ApplyButton"

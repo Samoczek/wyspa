@@ -14,7 +14,7 @@ const Annoucements = () => {
   const [posts, setPosts] = useState([]);
   const generatedPostId = cookies.UserId;
   const [currentPage, setCurrentPage] = useState(1);
-  const postsPerPage = 5;
+  const postsPerPage = 6;
   const [showDetails, setShowDetails] = useState(false);
 
   const navigate = useNavigate();
@@ -190,6 +190,7 @@ const Annoucements = () => {
                     <ApplyButton
                       postId={post._id}
                       postname={post.nazwa_systemu}
+                      postscenario={post.scenariusz}
                       userId={generatedPostId}
                       postUserId={post.user_id}
                     />
@@ -199,7 +200,7 @@ const Annoucements = () => {
                         className="ApplyButton"
                         onClick={() => handleShowDetails(post._id)}
                       >
-                        Szcegóły
+                        Szczegóły
                       </button>
                     }
                     {showDetails[post._id] && (

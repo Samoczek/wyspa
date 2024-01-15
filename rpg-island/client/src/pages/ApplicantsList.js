@@ -34,23 +34,24 @@ const ApplicantsList = () => {
     <div className="main">
       <Header />
       <div className="home">
-        <ul>
-          {applicants.map((applicant) => (
-            <li key={applicant.userId}>
-              ID: {applicant.user_id} <br />
-              Imię: {applicant.first_name} <br />
-              Nazwisko: {applicant.second_name} <br />
-              Wiek: {applicant.age} <br />O mnie: {applicant.about} <br />
-              Płeć: {applicant.gender_identity} <br />
-              <br />
-              <button onClick={() => handleChat(applicant.user_id)}>
-                Przejdź do chatu
-              </button>
-              <br />
-            </li>
-          ))}
-        </ul>
-      </div>
+  <div className="UserChatInfo">
+    {applicants.map((applicant) => (
+      <p key={applicant.userId}>
+        ID: {applicant.user_id} <br />
+        Imię: {applicant.first_name} <br />
+        Nazwisko: {applicant.second_name} <br />
+        Wiek: {applicant.age} <br />O mnie: {applicant.about} <br />
+        Płeć: {applicant.gender_identity} <br />
+        <br />
+        <button onClick={() => handleChat(applicant.user_id)}>
+          Przejdź do chatu
+        </button>
+        <br />
+      </p>
+    ))}
+  </div>
+</div>
+
 
       <ScrollTop />
 
