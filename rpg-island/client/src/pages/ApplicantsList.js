@@ -40,7 +40,8 @@ const ApplicantsList = () => {
         ID: {applicant.user_id} <br />
         Imię: {applicant.first_name} <br />
         Nazwisko: {applicant.second_name} <br />
-        Wiek: {applicant.age} <br />O mnie: {applicant.about} <br />
+        Wiek: {applicant.age} <br />
+        O mnie: {applicant.about} <br />
         Płeć: {applicant.gender_identity} <br />
         <br />
         <button onClick={() => handleChat(applicant.user_id)}>

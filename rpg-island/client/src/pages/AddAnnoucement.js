@@ -171,7 +171,7 @@ const AddAnnoucement = () => {
                 onChange={handleChange}
               />
 
-              <label htmlFor="opis">Opis sesji.</label>
+              <label htmlFor="opis">Opis sesji</label>
               <input
                 id="opis"
                 type="text"

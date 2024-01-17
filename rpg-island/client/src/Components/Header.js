@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import AuthModal from "../Components/AuthModal";
 import axios from "axios";
 
-//user, cookies, showModal, handleClicklog, handleClickprofile, logout, handleClick, isSignUp, setShowModal, AuthModal
 const Header = ({}) => {
   const [user, setUser] = useState(null);
   const [showModal, setShowModal] = useState(false);

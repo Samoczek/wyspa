@@ -5,7 +5,7 @@ const Footer = () => {
     <div className="footer">
       Kontakt: 3539852739857289
       <br />
-      Ale profeszional
+      Test
     </div>
   );
 };
