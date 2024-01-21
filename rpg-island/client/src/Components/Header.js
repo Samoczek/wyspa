@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import AuthModal from "../Components/AuthModal";
 import axios from "axios";
 
-const Header = ({}) => {
+const Header = ({ MainPage, AnnoucementsPage, ProfilePage }) => {
   const [user, setUser] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [isSignUp, setIsSignUp] = useState(false);
@@ -40,7 +40,6 @@ const Header = ({}) => {
   const handleClick = () => {
     setShowModal(true);
     setIsSignUp(true);
-    
   };
 
   const handleClickprofile = () => {
@@ -73,11 +72,17 @@ const Header = ({}) => {
         <h3 className="wmessage">Witaj: {user.username}</h3>
       )}
 
-      <button className="button-special" onClick={handleMainPage}>
+      <button
+        className={`button-special${MainPage ? "2" : ""}`}
+        onClick={handleMainPage}
+      >
         Strona główna
       </button>
 
-      <button className="button-special" onClick={handleClickAnnoucements}>
+      <button
+        className={`button-special${AnnoucementsPage ? "2" : ""}`}
+        onClick={handleClickAnnoucements}
+      >
         Ogłoszenia
       </button>
 
@@ -95,7 +100,7 @@ const Header = ({}) => {
       {/* Profile button */}
       {cookies.AuthToken && (
         <button
-          className="button-special"
+        className={`button-special${ProfilePage ? "2" : ""}`}
           onClick={handleClickprofile}
           disabled={!cookies.AuthToken}
         >

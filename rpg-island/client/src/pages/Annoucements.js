@@ -17,6 +17,8 @@ const Annoucements = () => {
   const postsPerPage = 6;
   const [showDetails, setShowDetails] = useState(false);
 
+  const AnnoucementsPage = true;
+
   const navigate = useNavigate();
 
   const indexOfLastPost = currentPage * postsPerPage;
@@ -129,7 +131,9 @@ const Annoucements = () => {
 
   return (
     <div className="main">
-      <Header />
+      <Header 
+            AnnoucementsPage={AnnoucementsPage}
+            />
 
       <div className="home">
         <div className="container">
@@ -157,7 +161,7 @@ const Annoucements = () => {
               onClick={handleMyApplications}
               disabled={!cookies.AuthToken}
             >
-              Moje Zgłoszenia
+              Moje zgłoszenia
             </button>
           </div>
         </div>

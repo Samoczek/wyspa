@@ -15,6 +15,7 @@ const Profile = () => {
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
   const userId = cookies.UserId;
 
+  const ProfilePage = true;
   let navigate = useNavigate();
 
   const getUser = async () => {
@@ -38,7 +39,9 @@ const Profile = () => {
 
   return (
     <div className="main">
-      <Header />
+      <Header 
+            ProfilePage={ProfilePage}
+      />
 
       <div className="home">
         <div className="container">
