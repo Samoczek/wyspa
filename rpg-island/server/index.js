@@ -303,7 +303,6 @@ app.put("/postedit/:postId", async (req, res) => {
   }
 });
 
-
 app.get("/posts", async (req, res) => {
   const client = new MongoClient(uri);
 
@@ -312,14 +311,23 @@ app.get("/posts", async (req, res) => {
     const database = client.db("app-data");
     const posts = database.collection("post");
 
-    // Pobierz ogłoszenia, posortowane według daty_dodania w malejącej kolejności
-    const sortedPosts = await posts.find().sort({ data_dodania: -1 }).toArray();
+    const currentDate = new Date();
+    const currentDateISO = currentDate.toISOString().split('T')[0];
 
-    res.json(sortedPosts);
+    const validPosts = await posts.find({ termin_sesji: { $gte: currentDateISO } }).sort({ data_dodania: -1 }).toArray();
+
+
+    res.json(validPosts);
   } finally {
     await client.close();
   }
 });
+
+
+
+
+
+
 
 app.get("/myposts", async (req, res) => {
   const userId = req.cookies.UserId;

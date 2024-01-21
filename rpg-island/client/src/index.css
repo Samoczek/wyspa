@@ -22,7 +22,7 @@ html, body {
     background: linear-gradient(to bottom, #0d49a3, #041835);
     margin-left: 5%; 
     margin-right: 5%;
-    height: 1000px; 
+    height: 1500px; 
     margin-top: 20px;
     border-radius: 30px;
 }
@@ -147,6 +147,73 @@ html, body {
 	box-shadow: 0 0 5px #92a815, 0 0 15px #92a815, 0 0 30px #92a815,
 		0 0 60px #92a815;
 }
+
+/*--- Podświetalne guziki 2 --- */
+.container {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Poprawiono wartość dla justify-content */
+    padding: 30px;
+  }
+  
+  .container .btn2,
+  .container .btn3,
+  .container .btn4 {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 250px;
+    height: 50px;
+    margin: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .container .btn2 button,
+  .container .btn3 button,
+  .container .btn4 button {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 15px 15px rgba(0, 0, 0, 0.3);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 30px;
+    padding: 10px;
+    letter-spacing: 1px;
+    text-decoration: none;
+    overflow: hidden;
+    color: #fff;
+    font-weight: 400px;
+    z-index: 1;
+    transition: 0.5s;
+    backdrop-filter: blur(15px);
+    letter-spacing: 3px;
+  }
+  
+  .container .btn2 button {
+    background: #2798da;
+    box-shadow: 0 0 5px #2798da, 0 0 15px #2798da, 0 0 30px #2798da, 0 0 60px #2798da;
+  }
+  
+  .container .btn3 button {
+    background: #da1960;
+    box-shadow: 0 0 5px #da1960, 0 0 15px #da1960, 0 0 30px #da1960, 0 0 60px #da1960;
+  }
+  
+  .container .btn4 button {
+    background: #92a815;
+    box-shadow: 0 0 5px #92a815, 0 0 15px #92a815, 0 0 30px #92a815, 0 0 60px #92a815;
+  }
+  
 
 /*--- Podświetlane guziki --- */
 

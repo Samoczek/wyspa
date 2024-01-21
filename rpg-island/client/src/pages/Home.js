@@ -1,6 +1,8 @@
 import Footer from "../Components/Footer";
 import Header from "../Components/Header";
 import ScrollTop from "../Components/ScrollTop";
+import { Helmet } from "react-helmet";
+
 
 const Home = () => {
 
@@ -8,6 +10,10 @@ const Home = () => {
 
   return (
     <div className="main">
+      <Helmet>
+      <title>Strona Główna</title>
+      </Helmet>
+
       <Header 
       MainPage={MainPage}
       />

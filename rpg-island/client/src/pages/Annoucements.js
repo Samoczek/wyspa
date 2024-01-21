@@ -8,6 +8,7 @@ import Footer from "../Components/Footer";
 import Header from "../Components/Header";
 import ShowDetailsButton from "../Components/ShowDetailsButton";
 import ScrollTop from "../Components/ScrollTop";
+import { Helmet } from "react-helmet";
 
 const Annoucements = () => {
   const [cookies, , removeCookie] = useCookies(["user"]);
@@ -131,9 +132,10 @@ const Annoucements = () => {
 
   return (
     <div className="main">
-      <Header 
-            AnnoucementsPage={AnnoucementsPage}
-            />
+      <Helmet>
+        <title>Lista Ogłoszeń</title>
+      </Helmet>
+      <Header AnnoucementsPage={AnnoucementsPage} />
 
       <div className="home">
         <div className="container">

@@ -13,6 +13,17 @@ const MyApplications = () => {
   const userId = cookies.UserId;
   let navigate = useNavigate();
 
+  const handleAddAnnouncement = () => {
+    navigate("/addAnnoucement");
+  };
+
+  const handleMyAnnoucements = () => {
+    navigate("/myAnnoucements");
+  };
+  const handleMyApplications = () => {
+    navigate("/myApplications");
+  };
+
   const getPosts = async () => {
     try {
       const response = await axios.get(`http://localhost:8000/myapplications`, {
@@ -48,13 +59,41 @@ const MyApplications = () => {
     navigate(`/chat/${userId}`);
   };
 
-  console.log(applications)
-
   return (
     <div className="main">
       <Header />
-
       <div className="home">
+      <div className="container">
+          <div className="btn">
+            <button
+              className="special-button"
+              onClick={handleAddAnnouncement}
+              disabled={!cookies.AuthToken}
+            >
+              Dodaj ogłoszenie
+            </button>
+          </div>
+
+          <div className="btn">
+            <button
+              onClick={handleMyAnnoucements}
+              disabled={!cookies.AuthToken}
+            >
+              Twoje ogłoszenia
+            </button>
+          </div>
+
+          <div className="btn4">
+            <button
+              onClick={handleMyApplications}
+              disabled={!cookies.AuthToken}
+            >
+              Moje zgłoszenia
+            </button>
+          </div>
+          </div>
+
+
         <div className="annocuements">
           <table>
             <thead>

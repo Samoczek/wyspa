@@ -26,6 +26,17 @@ const AddAnnoucement = () => {
 
   const navigate = useNavigate();
 
+  const handleAddAnnouncement = () => {
+    navigate("/addAnnoucement");
+  };
+
+  const handleMyAnnoucements = () => {
+    navigate("/myAnnoucements");
+  };
+  const handleMyApplications = () => {
+    navigate("/myApplications");
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -70,8 +81,37 @@ const AddAnnoucement = () => {
   return (
     <div className="main">
       <Header />
-
       <div className="home">
+        <div className="container">
+          <div className="btn3">
+            <button
+              className="special-button"
+              onClick={handleAddAnnouncement}
+              disabled={!cookies.AuthToken}
+            >
+              Dodaj ogłoszenie
+            </button>
+          </div>
+
+          <div className="btn">
+            <button
+              onClick={handleMyAnnoucements}
+              disabled={!cookies.AuthToken}
+            >
+              Twoje ogłoszenia
+            </button>
+          </div>
+
+          <div className="btn">
+            <button
+              onClick={handleMyApplications}
+              disabled={!cookies.AuthToken}
+            >
+              Moje zgłoszenia
+            </button>
+          </div>
+        </div>
+
         <div className="createAnnoucement">
           <form className="addAnnoucement" onSubmit={handleSubmit}>
             <section>
@@ -94,10 +134,8 @@ const AddAnnoucement = () => {
               <label htmlFor="termin_sesji">Termin pierwszej sesji</label>
               <input
                 id="termin_sesji"
-                type="text"
-                pattern="[0-3]?[0-9][.][0-1]?[0-9][.][0-9][0-9][0-9][0-9]"
+                type="date"
                 name="termin_sesji"
-                placeholder="Termin sesji"
                 required={true}
                 value={formData2.termin_sesji}
                 onChange={handleChange}

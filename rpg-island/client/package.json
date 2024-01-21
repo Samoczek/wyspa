@@ -10,11 +10,11 @@
     "react": "^18.2.0",
     "react-cookie": "^6.1.1",
     "react-dom": "^18.2.0",
+    "react-helmet": "^6.1.0",
     "react-router-dom": "^6.20.1",
     "react-scripts": "^5.0.1",
     "web-vitals": "^2.1.4"
   },
-
   "scripts": {
     "start": "NODE_ENV=production node_modules/react-scripts/bin/react-scripts.js start",
     "start:frontend": "react-scripts start",
@@ -22,7 +22,6 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-
   "eslintConfig": {
     "extends": [
       "react-app",

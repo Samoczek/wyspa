@@ -35,6 +35,13 @@ const MyAnnoucements = () => {
     navigate("/addAnnoucement");
   };
 
+  const handleMyAnnoucements = () => {
+    navigate("/myAnnoucements");
+  };
+  const handleMyApplications = () => {
+    navigate("/myApplications");
+  };
+
   const handleDeleteAnnouncement = async (postId) => {
     try {
       const response = await axios.delete(
@@ -64,7 +71,30 @@ const MyAnnoucements = () => {
       <div className="home">
         <div className="container">
           <div className="btn">
-            <button onClick={handleAddAnnouncement}>Dodaj ogłoszenie</button>
+            <button
+              onClick={handleAddAnnouncement}
+              disabled={!cookies.AuthToken}
+            >
+              Dodaj ogłoszenie
+            </button>
+          </div>
+
+          <div className="btn2">
+            <button
+              onClick={handleMyAnnoucements}
+              disabled={!cookies.AuthToken}
+            >
+              Twoje ogłoszenia
+            </button>
+          </div>
+
+          <div className="btn">
+            <button
+              onClick={handleMyApplications}
+              disabled={!cookies.AuthToken}
+            >
+              Moje zgłoszenia
+            </button>
           </div>
         </div>
 

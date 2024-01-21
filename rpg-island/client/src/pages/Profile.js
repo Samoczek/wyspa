@@ -6,7 +6,7 @@ import axios from "axios";
 import Footer from "../Components/Footer";
 import Header from "../Components/Header";
 import ScrollTop from "../Components/ScrollTop";
-
+import { Helmet } from "react-helmet";
 
 const Profile = () => {
   const [user, setUser] = useState(null);
@@ -39,9 +39,10 @@ const Profile = () => {
 
   return (
     <div className="main">
-      <Header 
-            ProfilePage={ProfilePage}
-      />
+      <Helmet>
+        <title>Twój Profil</title>
+      </Helmet>
+      <Header ProfilePage={ProfilePage} />
 
       <div className="home">
         <div className="container">
