@@ -111,17 +111,6 @@ app.get("/onePost/:id", async (req, res) => {
   }
 });
 
-/* // Dodatkowo, dodaj kod do obsługi błędów, jeśli nie jest jeszcze dodany
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send("Something went wrong!");
-});
-
-// Dodatkowo, dodaj kod do obsługi błędów, jeśli nie jest jeszcze dodany
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send("Something went wrong!");
-}); */
 
 // Log in to the Database
 app.post("/login", async (req, res) => {
@@ -133,29 +122,36 @@ app.post("/login", async (req, res) => {
     const database = client.db("app-data");
     const users = database.collection("users");
 
-    const user = await users.findOne({ email });
-    const correctPassword = await bcrypt.compare(
-      password,
-      user.hashed_password
-    );
+    const normalizedEmail = email.toLowerCase();
+    
+    const user = await users.findOne({ email: normalizedEmail });
 
-    if (user && correctPassword) {
-      const token = jwt.sign(user.user_id, email, {
+    if (!user) {
+      return res.status(400).json("Invalid Credentials");
+    }
+
+    if (user.blocked) {
+      return res.json({ blocked: true });
+    }    
+
+    const correctPassword = await bcrypt.compare(password, user.hashed_password);
+
+    if (correctPassword) {
+      const token = jwt.sign(user.user_id, normalizedEmail, {
        // expiresIn: '1d',
       });
       res.status(201).json({ token, userId: user.user_id });
-
     } else {
       res.status(400).json("Invalid Credentials");
     }
-    
-    res.status(400).json("Invalid Credentials");
   } catch (err) {
     console.log(err);
   } finally {
     await client.close();
   }
 });
+
+
 
 app.get("/user", async (req, res) => {
   const client = new MongoClient(uri);
@@ -222,6 +218,73 @@ app.put("/user", async (req, res) => {
     await client.close();
   }
 });
+
+// Endpoint do usuwania użytkownika
+app.delete("/user/:userId", async (req, res) => {
+  const client = new MongoClient(uri);
+
+  try {
+    await client.connect();
+    const database = client.db("app-data");
+    const users = database.collection("users");
+
+    const userId = req.params.userId;
+
+    // Sprawdź, czy userId jest poprawnym ObjectId
+    if (!ObjectId.isValid(userId)) {
+      return res.status(400).json({ message: "Nieprawidłowy format identyfikatora użytkownika." });
+    }
+
+    // Sprawdź, czy użytkownik o danym ID istnieje
+    const existingUser = await users.findOne({ _id: new ObjectId(userId) });
+    if (!existingUser) {
+      return res.status(404).json({ message: "Użytkownik nie znaleziony." });
+    }
+
+    // Usuń użytkownika z bazy danych
+    const deletionResult = await users.deleteOne({ _id: new ObjectId(userId) });
+
+    if (deletionResult.deletedCount === 1) {
+      res.json({ message: "Użytkownik został pomyślnie usunięty." });
+    } else {
+      res.status(500).json({ message: "Wystąpił problem podczas usuwania użytkownika." });
+    }
+  } finally {
+    await client.close();
+  }
+});
+
+app.patch("/toggleblock/:userId", async (req, res) => {
+  const client = new MongoClient(uri);
+
+  try {
+    await client.connect();
+    const database = client.db("app-data");
+    const users = database.collection("users");
+
+    const userId = req.params.userId;
+
+    // Sprawdź, czy użytkownik o danym ID istnieje
+    const existingUser = await users.findOne({ _id: new ObjectId(userId) });
+    if (!existingUser) {
+      return res.status(404).json({ message: "Użytkownik nie znaleziony." });
+    }
+
+    // Zmień status blokady użytkownika
+    const newBlockStatus = !existingUser.blocked;
+    await users.updateOne({ _id: new ObjectId(userId) }, { $set: { blocked: newBlockStatus } });
+
+    const actionMessage = newBlockStatus ? "zablokowany" : "odblokowany";
+    res.json({ message: `Użytkownik został ${actionMessage} pomyślnie.` });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "Wystąpił problem podczas zmiany statusu blokady użytkownika." });
+  } finally {
+    await client.close();
+  }
+});
+
+
 
 app.put("/post", async (req, res) => {
   const client = new MongoClient(uri);
@@ -304,6 +367,23 @@ app.get("/posts", async (req, res) => {
     const currentDateISO = currentDate.toISOString().split('T')[0];
 
     const validPosts = await posts.find({ termin_sesji: { $gte: currentDateISO } }).sort({ data_dodania: -1 }).toArray();
+
+
+    res.json(validPosts);
+  } finally {
+    await client.close();
+  }
+});
+
+app.get("/adminposts", async (req, res) => {
+  const client = new MongoClient(uri);
+
+  try {
+    await client.connect();
+    const database = client.db("app-data");
+    const posts = database.collection("post");
+
+    const validPosts = await posts.find().sort({ data_dodania: -1 }).toArray();
 
 
     res.json(validPosts);

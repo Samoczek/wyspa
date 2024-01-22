@@ -37,6 +37,10 @@ const Profile = () => {
     navigate("/editinfo");
   };
 
+  const handleGoToAdminPanel = () => {
+    navigate("/adminpanel");
+  };
+
   return (
     <div className="main">
       <Helmet>
@@ -51,12 +55,19 @@ const Profile = () => {
               Edycja profilu
             </button>
           </div>
+
+          {/* Dodaj warunek wyświetlający guzik tylko dla administratora */}
+          {cookies.AuthToken && user && user.admin && (
+            <div className="btn">
+              <button className="admin-button" onClick={handleGoToAdminPanel}>
+                Przejdź do panelu administratora
+              </button>
+            </div>
+          )}
         </div>
 
         <div className="profile">
-          {cookies.AuthToken && user && (
-            <p>Nazwa użytkownika: {user.username}</p>
-          )}
+          {cookies.AuthToken && user && <p>Nazwa użytkownika: {user.username}</p>}
           {cookies.AuthToken && user && <p>Email: {user.email}</p>}
           {cookies.AuthToken && user && <p>Imie: {user.first_name}</p>}
           {cookies.AuthToken && user && <p>Nazwisko: {user.second_name}</p>}

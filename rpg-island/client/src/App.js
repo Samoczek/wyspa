@@ -9,6 +9,8 @@ import ApplicantsList from './pages/ApplicantsList'
 import Chat from './pages/Chat';
 import MyApplications from './pages/MyApplications.js'
 import EditPost from './pages/EditPost.js'
+import AdminPanel from './pages/AdminPanel.js'
+import UsersPanel from './pages/UsersPanel.js'
 
 
 
@@ -29,7 +31,8 @@ const App = () => {
   <Route path="/chat/:userId" element={<Chat/>} />
   <Route path="/myApplications" element={<MyApplications/>} />
   <Route path="/editPost/:postId" element={<EditPost/>} />
-  
+  <Route path="/adminpanel" element={<AdminPanel/>} />
+  <Route path="/userspanel" element={<UsersPanel/>} />
   
   
  </Routes>

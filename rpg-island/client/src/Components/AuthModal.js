@@ -18,28 +18,38 @@ const AuthModal = ({ setShowModal, isSignUp }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     try {
       if (isSignUp && password !== confirmPassword) {
         setError("Passwords need to match!");
         return;
       }
-
+  
       const response = await axios.post(
         `http://localhost:8000/${isSignUp ? "signup" : "login"}`,
         { email, password }
       );
+  
       setCookie("UserId", response.data.userId);
       setCookie("AuthToken", response.data.token);
 
+      if (response.data.blocked) {
+        setError("Twoje konto jest zablokowane. Skontaktuj się z administratorem.");
+        return;
+      }
+  
       const success = response.status === 201;
       if (success && isSignUp) navigate("/registration");
-
+  
       window.location.reload();
     } catch (error) {
-      console.log(error);
+      
+      console.error("Error during authentication:", error);
+      setError("Wystąpił błąd podczas uwierzytelniania. Spróbuj ponownie.");
     }
   };
+  
+  
 
   return (
     <div className="auth-modal">
@@ -52,7 +62,7 @@ const AuthModal = ({ setShowModal, isSignUp }) => {
         <input
           type="email"
           id="email"
-          pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$"
+          pattern="[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}$"
           minLength={3}
           maxLength={64}
           name="email"
@@ -85,4 +95,5 @@ const AuthModal = ({ setShowModal, isSignUp }) => {
     </div>
   );
 };
+
 export default AuthModal;
