@@ -100,6 +100,7 @@ const MyApplications = () => {
               <tr>
                 <th>Nazwa Systemu</th>
                 <th>Scenariusz</th>
+                <th>Data sesji</th>
                 <th>Chat</th>
                 <th>Usuń</th>
               </tr>
@@ -110,6 +111,7 @@ const MyApplications = () => {
   <tr key={applicant._id}>
     <td>{applicant.postname}</td>
     <td>{applicant.postscenario}</td>
+    <td>{applicant.postdate}</td>
     <td>
       <button
         className="ApplyButton"

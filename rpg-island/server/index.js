@@ -184,17 +184,6 @@ app.get("/users", async (req, res) => {
     const database = client.db("app-data");
     const users = database.collection("users");
 
-    //const pipeline =
-    //    [
-    //        {
-    //            '$match': {
-    //                'user_id': {
-    //                    '$in': userIds
-    //                }
-    //            }
-    //        }
-    //    ]
-
     const foundUsers = await users.find().toArray();
 
     res.json(foundUsers);
@@ -324,11 +313,6 @@ app.get("/posts", async (req, res) => {
 });
 
 
-
-
-
-
-
 app.get("/myposts", async (req, res) => {
   const userId = req.cookies.UserId;
 
@@ -351,7 +335,6 @@ app.get("/myposts", async (req, res) => {
   }
 });
 
-///// nowe
 
 app.get("/myapplications", async (req, res) => {
   const client = new MongoClient(uri);
@@ -366,7 +349,6 @@ app.get("/myapplications", async (req, res) => {
       .find({ userId: userId })
       .toArray();
 
-    // console.log(myApplications)
 
     res.json(myApplications);
   } finally {
@@ -392,8 +374,6 @@ app.get("/myapplicatedpost/:postId", async (req, res) => {
     await client.close();
   }
 });
-
-//// nowe
 
 // Get Messages by from_userId and to_userId
 app.get("/messages", async (req, res) => {
@@ -474,7 +454,7 @@ app.post("/apply", async (req, res) => {
     const database = client.db("app-data");
     const applications = database.collection("applications");
 
-    const { postId, userId, postname, postUserId, postscenario } = req.body;
+    const { postId, userId, postname, postUserId, postscenario, postdate } = req.body;
 
     // Sprawdź, czy użytkownik już jest zapisany do tego ogłoszenia
     const existingApplication = await applications.findOne({ postId, userId });
@@ -486,7 +466,7 @@ app.post("/apply", async (req, res) => {
     }
 
     // Zapisz użytkownika do ogłoszenia
-    await applications.insertOne({ postId, userId, postname, postUserId, postscenario });
+    await applications.insertOne({ postId, userId, postname, postUserId, postscenario, postdate });
 
     res
       .status(201)

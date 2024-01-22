@@ -17,6 +17,27 @@ const Annoucements = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const postsPerPage = 6;
   const [showDetails, setShowDetails] = useState(false);
+  const [filterSessions, setFilterSessions] = useState("");
+  const [filterSessionLength, setFilterSessionLength] = useState("");
+  const [filterPlayers, setFilterPlayers] = useState("");
+  const [filterTerm, setFilterTerm] = useState("");
+  const [filterName, setFilterName] = useState("");
+
+
+  const handleFilter = () => {
+    getPosts();
+  };
+
+  const handleResetFilters = () => {
+    setFilterTerm("");
+    setFilterName("");
+    setFilterSessions("");
+    setFilterSessionLength("");
+    setFilterPlayers("");
+    getPosts();
+  };
+
+
 
   const AnnoucementsPage = true;
 
@@ -130,6 +151,25 @@ const Annoucements = () => {
     }));
   };
 
+  const Tooltip = ({ title, children }) => {
+    const [showTooltip, setShowTooltip] = useState(false);
+  
+    return (
+      <div
+        className="tooltip-container"
+        onMouseEnter={() => setShowTooltip(true)}
+        onMouseLeave={() => setShowTooltip(false)}
+      >
+        {children}
+        {showTooltip && (
+          <div className="tooltip-bubble">
+            <div className="tooltip-content">{title}</div>
+          </div>
+        )}
+      </div>
+    );
+  };
+
   return (
     <div className="main">
       <Helmet>
@@ -169,6 +209,52 @@ const Annoucements = () => {
         </div>
 
         <div className="annocuements">
+
+        <div className="filter-section">
+        
+        <input
+          type="text"
+          placeholder="Nazwa Systemu"
+          value={filterName}
+          onChange={(e) => setFilterName(e.target.value)}
+        />
+        <Tooltip title="Wpisz nazwę systemu, który cię interesuje"> <p className="tooltip"> ? </p>
+        </Tooltip>
+        <input
+          type="date"
+          placeholder="Termin Sesji"
+          value={filterTerm}
+          onChange={(e) => setFilterTerm(e.target.value)}
+        />
+        <Tooltip title="Zaznacz datę, od której sesje cię interesują"> <p className="tooltip"> ? </p>
+        </Tooltip>
+        <input
+          type="number"
+          placeholder="Ilość Sesji"
+          value={filterSessions}
+          onChange={(e) => setFilterSessions(e.target.value)}
+        />
+        <Tooltip title="Wpisz liczbę sesji, od której sesje cię interesują"> <p className="tooltip"> ? </p>
+        </Tooltip>
+        <input
+          type="number"
+          placeholder="Długość Sesji"
+          value={filterSessionLength}
+          onChange={(e) => setFilterSessionLength(e.target.value)}
+        />
+        <Tooltip title="Wpisz długość sesji w godzinach"> <p className="tooltip"> ? </p>
+        </Tooltip>
+        <input
+          type="number"
+          placeholder="Ilość Graczy"
+          value={filterPlayers}
+          onChange={(e) => setFilterPlayers(e.target.value)}
+        />
+        <Tooltip title="Wpisz ilość graczy na sesji, od której sesje cię interesują"> <p className="tooltip"> ? </p>
+        </Tooltip>
+        <button onClick={handleResetFilters}>Resetuj filtry</button>
+      </div>
+
           <table>
             <thead>
               <tr>
@@ -183,8 +269,21 @@ const Annoucements = () => {
               </tr>
             </thead>
             <tbody>
-              {currentPosts.map((post) => (
-                <tr key={post._id}>
+                      {currentPosts
+            .filter((post) =>
+              (!filterTerm ||
+                new Date(post.termin_sesji).getTime() >=
+                  new Date(filterTerm).getTime()) &&
+              post.nazwa_systemu
+                .toLowerCase()
+                .includes(filterName.toLowerCase()) &&
+              (!filterSessions || post.ilosc_sesji >= parseInt(filterSessions)) &&
+              (!filterSessionLength ||
+                post.dlugosc_sesji >= parseInt(filterSessionLength)) &&
+              (!filterPlayers || post.ilosc_graczy >= parseInt(filterPlayers))
+            )
+            .map((post) => (
+              <tr key={post._id}>
                   <td>{post.nazwa_systemu}</td>
                   <td>{post.termin_sesji}</td>
                   <td>{post.ilosc_sesji}</td>
@@ -199,6 +298,7 @@ const Annoucements = () => {
                       postscenario={post.scenariusz}
                       userId={generatedPostId}
                       postUserId={post.user_id}
+                      postdate={post.termin_sesji}
                     />
 
                     {

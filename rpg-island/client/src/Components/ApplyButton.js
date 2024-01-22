@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 
-const ApplyButton = ({ postId, userId, postname, postUserId, postscenario }) => {
+const ApplyButton = ({ postId, userId, postname, postUserId, postscenario, postdate }) => {
   const handleApply = async () => {
     try {
       const response = await axios.post("http://localhost:8000/apply", {
@@ -9,6 +9,7 @@ const ApplyButton = ({ postId, userId, postname, postUserId, postscenario }) => 
         userId,
         postname,
         postscenario,
+        postdate,
         postUserId,
       });
       console.log(response.data.message);

@@ -452,6 +452,102 @@ a {
     font-weight: bold;
 }
 
+/*--- Filtry ---*/
+
+/* Dla wszystkich inputów typu date */
+input[type="date"] {
+    background-color: ;
+    box-sizing: border-box;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s ease;
+  }
+  
+  /* Dla hovera */
+  input[type="date"]:hover {
+    border-color: #aaa;
+  }
+  
+  /* Dla aktywnego stanu */
+  input[type="date"]:active,
+  input[type="date"]:focus {
+    border-color: #333;
+    outline: none;
+  }
+  
+
+.filter-section {
+    display: flex;
+    margin-bottom: 20px;
+  }
+  
+  .filter-section input {
+    margin-right: 10px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  
+  .filter-section button {
+    padding: 10px;
+    background-color: #831283;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .filter-section button:hover {
+    background-color: #a71893;
+  }
+
+  .tooltip-container {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .tooltip-bubble {
+    position: absolute;
+    background-color: #333;
+    color: #fff;
+    border-radius: 4px;
+    padding: 6px;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: none;
+    width: 200px;
+    height: 50px;
+  }
+  
+  .tooltip-container:hover .tooltip-bubble {
+    display: block;
+  }
+  
+  .tooltip-content {
+    font-size: 16px;
+    text-align: center;
+  }
+
+  .tooltip {
+    padding: 3px;
+    background-color: #ffffff; 
+    color: rgb(0, 0, 0);
+    border-radius: 50%; 
+    width: 20px; 
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin-right: 6px;
+  }
+
 /*--- Strony z ogłoszeniami --- */
   
 /*-------- Auth Modal --------*/
@@ -557,7 +653,7 @@ tbody tr:hover {
 
 .createAnnoucement input[type="text"],
 .createAnnoucement input[type="url"] {
-    width: 100%;
+    width: 90%;
     padding: 10px;
     margin-bottom: 20px;
     border: 1px solid #e5e5e5;

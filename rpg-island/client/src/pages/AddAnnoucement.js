@@ -78,6 +78,25 @@ const AddAnnoucement = () => {
     }
   };
 
+  const Tooltip = ({ title, children }) => {
+    const [showTooltip, setShowTooltip] = useState(false);
+  
+    return (
+      <div
+        className="tooltip-container"
+        onMouseEnter={() => setShowTooltip(true)}
+        onMouseLeave={() => setShowTooltip(false)}
+      >
+        {children}
+        {showTooltip && (
+          <div className="tooltip-bubble">
+            <div className="tooltip-content">{title}</div>
+          </div>
+        )}
+      </div>
+    );
+  };
+
   return (
     <div className="main">
       <Header />
@@ -130,6 +149,8 @@ const AddAnnoucement = () => {
                 value={formData2.nazwa_systemu}
                 onChange={handleChange}
               />
+              <Tooltip title="Wpisz pełną nazwę systemu lub jej skrót"> <p className="tooltip"> ? </p>
+              </Tooltip>
 
               <label htmlFor="termin_sesji">Termin pierwszej sesji</label>
               <input
@@ -140,33 +161,39 @@ const AddAnnoucement = () => {
                 value={formData2.termin_sesji}
                 onChange={handleChange}
               />
+              <Tooltip title="Zaznacz odpowiednią datę kiedy planujesz, aby odbyła się pierwsza sesja."> <p className="tooltip"> ? </p>
+              </Tooltip>
 
               <label htmlFor="ilosc_sesji">Ilość sesji</label>
               <input
                 id="ilosc_sesji"
                 type="text"
-                pattern="[1-9][0-9]?[0-9]?"
+                pattern="[1-9][0-9]?"
                 g
                 name="ilosc_sesji"
-                placeholder="Ilość sesji"
+                placeholder="5"
                 required={true}
                 value={formData2.ilosc_sesji}
                 onChange={handleChange}
               />
+              <Tooltip title="Wpisz ilość sesji jaką planujesz przeprowadzić w ramach ogłoszenia"> <p className="tooltip"> ? </p>
+              </Tooltip>
 
               <label>Długość sesji</label>
               <input
                 id="dlugosc_sesji"
                 type="text"
-                pattern="[\s\S]*"
-                minLength={2}
+                pattern="[[1-9][0-9]?]*"
+                minLength={1}
                 maxLength={32}
                 name="dlugosc_sesji"
-                placeholder="Długość sesji"
+                placeholder="czas sesji w godzinach"
                 required={true}
                 value={formData2.dlugosc_sesji}
                 onChange={handleChange}
               />
+              <Tooltip title="Wpisz średnią długość jednej sesji jaką planujesz przeprowadzić w ramach ogłoszenia w godzinach"> <p className="tooltip"> ? </p>
+              </Tooltip>
 
               <label>Ilość poszukiwanych graczy</label>
               <input
@@ -175,11 +202,13 @@ const AddAnnoucement = () => {
                 pattern="[1-9][0-9]?"
                 g
                 name="ilosc_graczy"
-                placeholder="Ilość poszukiwanych graczy"
+                placeholder="6"
                 required={true}
                 value={formData2.ilosc_graczy}
                 onChange={handleChange}
               />
+              <Tooltip title="Wpisz ilość graczy jaką poszukujesz w ramach ogłoszenia"> <p className="tooltip"> ? </p>
+              </Tooltip>
 
               <label>Scenariusz</label>
               <input
@@ -189,11 +218,13 @@ const AddAnnoucement = () => {
                 minLength={3}
                 maxLength={64}
                 name="scenariusz"
-                placeholder="Scenariusz"
+                placeholder="Nazwa scenariusza"
                 required={true}
                 value={formData2.scenariusz}
                 onChange={handleChange}
               />
+              <Tooltip title="Wpisz nazwę scenariusza jaki planujesz przeprowadzić w ramach ogłoszenia"> <p className="tooltip"> ? </p>
+              </Tooltip>
 
               <label>BHS sesji</label>
               <input
@@ -208,6 +239,8 @@ const AddAnnoucement = () => {
                 value={formData2.bhs}
                 onChange={handleChange}
               />
+              <Tooltip title="Wpisz narzędzia bezpieczeństwa podczas sesji jaki planujesz wykorzystać. Możesz wpisać również 'brak'"> <p className="tooltip"> ? </p>
+              </Tooltip>
 
               <label htmlFor="opis">Opis sesji</label>
               <input
