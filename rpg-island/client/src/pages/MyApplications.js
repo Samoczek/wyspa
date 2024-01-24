@@ -10,6 +10,7 @@ const MyApplications = () => {
   const [cookies, , removeCookie] = useCookies(["user"]);
   const { postId } = useParams();
   const [applications, setPosts] = useState([]);
+  const [confirmDelete, setConfirmDelete] = useState(null);
   const userId = cookies.UserId;
   let navigate = useNavigate();
 
@@ -37,19 +38,22 @@ const MyApplications = () => {
   };
 
   const deleteApplication = async (id) => {
-    try {
-      const response = await axios.delete(`http://localhost:8000/deleteApplication/${id}`);
-  
-      if (response.status === 200) {
-        getPosts(); 
+    if (confirmDelete === id) {
+      try {
+        const response = await axios.delete(`http://localhost:8000/deleteApplication/${id}`);
+    
+        if (response.status === 200) {
+          setConfirmDelete(null);
+          getPosts(); 
+        }
+      } catch (err) {
+        console.log(err);
       }
-    } catch (err) {
-      console.log(err);
+    } else {
+      setConfirmDelete(id);
     }
   };
   
-
-
   useEffect(() => {
     getPosts();
   }, [userId]);
@@ -63,7 +67,7 @@ const MyApplications = () => {
     <div className="main">
       <Header />
       <div className="home">
-      <div className="container">
+        <div className="container">
           <div className="btn">
             <button
               className="special-button"
@@ -91,8 +95,7 @@ const MyApplications = () => {
               Moje zgłoszenia
             </button>
           </div>
-          </div>
-
+        </div>
 
         <div className="annocuements">
           <table>
@@ -107,30 +110,29 @@ const MyApplications = () => {
             </thead>
 
             <tbody>
-            {applications.map((applicant) => (
-  <tr key={applicant._id}>
-    <td>{applicant.postname}</td>
-    <td>{applicant.postscenario}</td>
-    <td>{applicant.postdate}</td>
-    <td>
-      <button
-        className="ApplyButton"
-        onClick={() => handleChat(applicant.postUserId)}
-      >
-        Przejdź do chatu
-      </button>
-    </td>
-    <td>
-      <button
-        className="ApplyButton"
-        onClick={() => deleteApplication(applicant._id)}
-      >
-        Usuń
-      </button>
-    </td>
-  </tr>
-))}
-
+              {applications.map((applicant) => (
+                <tr key={applicant._id}>
+                  <td>{applicant.postname}</td>
+                  <td>{applicant.postscenario}</td>
+                  <td>{applicant.postdate}</td>
+                  <td>
+                    <button
+                      className="ApplyButton"
+                      onClick={() => handleChat(applicant.postUserId)}
+                    >
+                      Przejdź do chatu
+                    </button>
+                  </td>
+                  <td>
+                    <button
+                      className="ApplyButton"
+                      onClick={() => deleteApplication(applicant._id)}
+                    >
+                      {confirmDelete === applicant._id ? "Potwierdź usunięcie" : "Usuń"}
+                    </button>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>

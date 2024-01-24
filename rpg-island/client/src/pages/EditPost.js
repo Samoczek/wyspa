@@ -86,11 +86,60 @@ const EditPost = () => {
     getPost();
   }, [postId]);
 
+  function getCurrentDate() {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+  
+    return `${year}-${month}-${day}`;
+  }
+
+  const handleAddAnnouncement = () => {
+    navigate("/addAnnoucement");
+  };
+
+  const handleMyAnnoucements = () => {
+    navigate("/myAnnoucements");
+  };
+  const handleMyApplications = () => {
+    navigate("/myApplications");
+  };
+
   return (
     <div className="main">
       <Header />
 
       <div className="home">
+      <div className="container">
+          <div className="btn">
+            <button
+              className="special-button"
+              onClick={handleAddAnnouncement}
+              disabled={!cookies.AuthToken}
+            >
+              Dodaj ogłoszenie
+            </button>
+          </div>
+
+          <div className="btn2">
+            <button
+              onClick={handleMyAnnoucements}
+              disabled={!cookies.AuthToken}
+            >
+              Twoje ogłoszenia
+            </button>
+          </div>
+
+          <div className="btn">
+            <button
+              onClick={handleMyApplications}
+              disabled={!cookies.AuthToken}
+            >
+              Moje zgłoszenia
+            </button>
+          </div>
+        </div>
         <div className="createAnnoucement">
           <form className="addAnnoucement" onSubmit={handleSubmit}>
             <section>
@@ -113,13 +162,12 @@ const EditPost = () => {
               <label htmlFor="termin_sesji">Termin pierwszej sesji</label>
               <input
                 id="termin_sesji"
-                type="text"
-                pattern="[0-3]?[0-9][.][0-1]?[0-9][.][0-9][0-9][0-9][0-9]"
+                type="date"
                 name="termin_sesji"
-                placeholder="Termin sesji"
-                required={false}
+                required={true}
                 value={formData2.termin_sesji}
                 onChange={handleChange}
+                min={getCurrentDate()}
               />
 
               <label htmlFor="ilosc_sesji">Ilość sesji</label>

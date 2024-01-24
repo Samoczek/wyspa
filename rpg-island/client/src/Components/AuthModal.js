@@ -21,7 +21,7 @@ const AuthModal = ({ setShowModal, isSignUp }) => {
   
     try {
       if (isSignUp && password !== confirmPassword) {
-        setError("Passwords need to match!");
+        setError("Hasła muszą być takie same!");
         return;
       }
   
@@ -73,7 +73,7 @@ const AuthModal = ({ setShowModal, isSignUp }) => {
         <input
           type="password"
           id="password"
-          pattern="^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:])([^\s]){8,16}$"
+          pattern="^(?=.\d)(?=.[A-Z])(?=.[a-z])(?=.[^\w\d\s:])([^\s]){8,16}$"
           name="password"
           placeholder="password"
           required={true}

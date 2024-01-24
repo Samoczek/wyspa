@@ -3,22 +3,21 @@ import Header from "../Components/Header";
 import ScrollTop from "../Components/ScrollTop";
 import { Helmet } from "react-helmet";
 
-
 const Home = () => {
-
   const MainPage = true;
 
   return (
     <div className="main">
       <Helmet>
-      <title>Strona Główna</title>
+        <title>Strona Główna</title>
       </Helmet>
 
-      <Header 
-      MainPage={MainPage}
-      />
+      <Header MainPage={MainPage} />
 
-      <div className="home"></div>
+      <div className="home">
+
+        Tutaj coś dopisać
+      </div>
 
       <ScrollTop />
 

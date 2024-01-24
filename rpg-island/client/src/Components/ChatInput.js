@@ -46,11 +46,19 @@ const ChatInput = ({ userData, getUserMessages, getClickedUsersMessages }) => {
     }
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      addMessage();
+    }
+  };
+
   return (
     <div className="chat-input">
       <textarea
         value={textArea}
         onChange={(e) => setTextArea(e.target.value)}
+        onKeyDown={handleKeyDown}
       />
       <button className="send-button" onClick={addMessage}>
         Wyślij

@@ -10,6 +10,7 @@ import ScrollTop from "../Components/ScrollTop";
 const MyAnnoucements = () => {
   const [cookies] = useCookies(["user"]);
   const [posts, setPosts] = useState([]);
+  const [confirmDelete, setConfirmDelete] = useState(null);
   const userId = cookies.UserId;
   const navigate = useNavigate();
 
@@ -43,16 +44,21 @@ const MyAnnoucements = () => {
   };
 
   const handleDeleteAnnouncement = async (postId) => {
-    try {
-      const response = await axios.delete(
-        `http://localhost:8000/post/${postId}`
-      );
-      const success = response.status === 200;
-      if (success) {
-        getPosts();
+    if (confirmDelete === postId) {
+      try {
+        const response = await axios.delete(
+          `http://localhost:8000/post/${postId}`
+        );
+        const success = response.status === 200;
+        if (success) {
+          setConfirmDelete(null);
+          getPosts();
+        }
+      } catch (err) {
+        console.log(err);
       }
-    } catch (err) {
-      console.log(err);
+    } else {
+      setConfirmDelete(postId);
     }
   };
 
@@ -127,7 +133,7 @@ const MyAnnoucements = () => {
                       className="ApplyButton"
                       onClick={() => handleDeleteAnnouncement(post._id)}
                     >
-                      Usuń
+                      {confirmDelete === post._id ? "Potwierdź usunięcie" : "Usuń"}
                     </button>
 
                     <button

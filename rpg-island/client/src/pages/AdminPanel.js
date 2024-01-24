@@ -125,18 +125,10 @@ const Annoucements = () => {
     );
   };
 
-  const handleDeleteAnnouncement = async (postId) => {
-    try {
-      const response = await axios.delete(
-        `http://localhost:8000/post/${postId}`
-      );
-      const success = response.status === 200;
-      if (success) {
-        getPosts();
-      }
-    } catch (err) {
-      console.log(err);
-    }
+
+
+  const handleCloseDetails = () => {
+    setShowDetails(false);
   };
 
   const handleShowDetails = (postId) => {
@@ -172,6 +164,30 @@ const Annoucements = () => {
         )}
       </div>
     );
+  };
+
+  const [confirmationModal, setConfirmationModal] = useState(false);
+  const [postToDelete, setPostToDelete] = useState(null);
+
+  const handleDeletePost = (postId) => {
+    setPostToDelete(postId);
+    setConfirmationModal(true);
+  };
+
+  const handleConfirmAction = async (confirmation) => {
+    if (confirmation && postToDelete) {
+      try {
+        await axios.delete(`http://localhost:8000/post/${postToDelete}`);
+        setPosts((prevPosts) =>
+          prevPosts.filter((post) => post._id !== postToDelete)
+        );
+      } catch (error) {
+        console.error("Error deleting post:", error);
+      }
+    }
+
+    setPostToDelete(null);
+    setConfirmationModal(false);
   };
 
   return (
@@ -306,15 +322,13 @@ const Annoucements = () => {
                       </button>
 
                       {showDetails[post._id] && (
-                        <ShowDetailsButton
-                          postId={post._id}
-                          showDetails={showDetails}
-                        />
-                      )}
+                      <ShowDetailsButton postId={post._id} onClose={handleCloseDetails} />
+   
+                    )}
 
                       <button
                         className="ApplyButton"
-                        onClick={() => handleDeleteAnnouncement(post._id)}
+                        onClick={() => handleDeletePost(post._id)}
                       >
                         Usuń
                       </button>
@@ -326,7 +340,18 @@ const Annoucements = () => {
 
           <ul className="pagination">{renderPageNumbers()}</ul>
         </div>
+        
       </div>
+
+      {confirmationModal && (
+        <div className="confirmation-modal">
+          <div className="confirmation-content">
+            <p>Czy na pewno chcesz wykonać tę akcję?</p>
+            <button onClick={() => handleConfirmAction(true)}>Tak</button>
+            <button onClick={() => handleConfirmAction(false)}>Nie</button>
+          </div>
+        </div>
+      )}
       <ScrollTop />
       <Footer />
     </div>

@@ -9,6 +9,9 @@ import Header from "../Components/Header";
 import ShowDetailsButton from "../Components/ShowDetailsButton";
 import ScrollTop from "../Components/ScrollTop";
 import { Helmet } from "react-helmet";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 const Annoucements = () => {
   const [cookies, , removeCookie] = useCookies(["user"]);
@@ -24,6 +27,7 @@ const Annoucements = () => {
   const [filterName, setFilterName] = useState("");
 
 
+
   const handleFilter = () => {
     getPosts();
   };
@@ -34,6 +38,7 @@ const Annoucements = () => {
     setFilterSessions("");
     setFilterSessionLength("");
     setFilterPlayers("");
+    // setCurrentPage(1); // Jeśli chcesz wracać do pierwszej strony po zresetowaniu filtrów
     getPosts();
   };
 
@@ -144,6 +149,10 @@ const Annoucements = () => {
     );
   };
 
+  const handleCloseDetails = () => {
+    setShowDetails(false);
+  };
+
   const handleShowDetails = (postId) => {
     setShowDetails((prevState) => ({
       ...prevState,
@@ -169,6 +178,15 @@ const Annoucements = () => {
       </div>
     );
   };
+
+  function getCurrentDate() {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+  
+    return `${year}-${month}-${day}`;
+  }
 
   return (
     <div className="main">
@@ -225,6 +243,7 @@ const Annoucements = () => {
           placeholder="Termin Sesji"
           value={filterTerm}
           onChange={(e) => setFilterTerm(e.target.value)}
+          min={getCurrentDate()}
         />
         <Tooltip title="Zaznacz datę, od której sesje cię interesują"> <p className="tooltip"> ? </p>
         </Tooltip>
@@ -299,8 +318,9 @@ const Annoucements = () => {
                       userId={generatedPostId}
                       postUserId={post.user_id}
                       postdate={post.termin_sesji}
+                      
                     />
-
+                          <ToastContainer />
                     {
                       <button
                         className="ApplyButton"
@@ -310,10 +330,8 @@ const Annoucements = () => {
                       </button>
                     }
                     {showDetails[post._id] && (
-                      <ShowDetailsButton
-                        postId={post._id}
-                        showDetails={showDetails}
-                      />
+                      <ShowDetailsButton postId={post._id} onClose={handleCloseDetails} />
+   
                     )}
                   </td>
                 </tr>

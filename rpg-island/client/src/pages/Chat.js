@@ -1,5 +1,4 @@
 import ChatInput from "../Components/ChatInput";
-
 import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
@@ -7,6 +6,7 @@ import { useCookies } from "react-cookie";
 import Footer from "../Components/Footer";
 import Header from "../Components/Header";
 import ScrollTop from "../Components/ScrollTop";
+import { useNavigate } from "react-router-dom";
 
 const Chat = () => {
   const [cookies, removeCookie] = useCookies(["user"]);
@@ -16,6 +16,8 @@ const Chat = () => {
   const [usersMessages, setUsersMessages] = useState(null);
   const [clickedUsersMessages, setClickedUsersMessages] = useState(null);
   const chatDisplayRef = useRef(null);
+  
+  const navigate = useNavigate();
 
   const getUser = async () => {
     try {
@@ -95,11 +97,53 @@ const Chat = () => {
     a.timestamp.localeCompare(b.timestamp)
   );
 
+  
+  const handleAddAnnouncement = () => {
+    navigate("/addAnnoucement");
+  };
+
+  const handleMyAnnoucements = () => {
+    navigate("/myAnnoucements");
+  };
+  const handleMyApplications = () => {
+    navigate("/myApplications");
+  };
+
   return (
     <div className="main">
       <Header />
 
       <div className="home">
+      <div className="container">
+          <div className="btn">
+            <button
+              className="special-button"
+              onClick={handleAddAnnouncement}
+              disabled={!cookies.AuthToken}
+            >
+              Dodaj ogłoszenie
+            </button>
+          </div>
+
+          <div className="btn">
+            <button
+              onClick={handleMyAnnoucements}
+              disabled={!cookies.AuthToken}
+            >
+              Twoje ogłoszenia
+            </button>
+          </div>
+
+          <div className="btn4">
+            <button
+              onClick={handleMyApplications}
+              disabled={!cookies.AuthToken}
+            >
+              Moje zgłoszenia
+            </button>
+          </div>
+        </div>
+
         {userData ? (
           <div className="UserChatInfo">
             <h2>

@@ -6,7 +6,6 @@ import Footer from "../Components/Footer";
 import Header from "../Components/Header";
 import ScrollTop from "../Components/ScrollTop";
 
-
 const EditInfo = () => {
   const [user, setUser] = useState(null);
   const [cookies, setCookie, removeCookie] = useCookies(null);
@@ -19,7 +18,6 @@ const EditInfo = () => {
     first_name: "",
     second_name: "",
     age: "",
-    show_gender: false,
     gender_identity: "",
     url: "",
     about: "",
@@ -50,10 +48,10 @@ const EditInfo = () => {
             url: reader.result,
           }));
         };
-        reader.readAsDataURL(file);  
+        reader.readAsDataURL(file);
       }
     } else {
-      const value = e.target.type === "checkbox" ? e.target.checked : e.target.value;
+      const value = e.target.value;
       const name = e.target.name;
 
       setFormData((prevState) => ({
@@ -69,6 +67,16 @@ const EditInfo = () => {
         params: { userId },
       });
       setUser(response.data);
+      setFormData((prevState) => ({
+        ...prevState,
+        username: response.data.username,
+        first_name: response.data.first_name,
+        second_name: response.data.second_name,
+        age: response.data.age,
+        gender_identity: response.data.gender_identity,
+        url: response.data.url,
+        about: response.data.about,
+      }));
     } catch (error) {
       console.log(error);
     }
@@ -78,119 +86,114 @@ const EditInfo = () => {
     getUser();
   }, [userId]);
 
-  const handleCheckboxChange = (event) => {
-    setFormData({
-      ...formData,
-      [event.target.name]: event.target.checked
-    });
+  const handleGoBack = () => {
+    navigate("/profile");
   };
 
   return (
     <div className="main">
       <Header />
 
-      <div className="createAnnoucement">
-        <form onSubmit={handleSubmit}>
-          <section>
-            <label htmlFor="username">Nazwa użytkownika</label>
-            <input
-              id="username"
-              type="text"
-              name="username"
-              placeholder={user?.username}
-              required={false}
-              value={formData.username}
-              onChange={handleChange}
-            />
-
-            <label htmlFor="first_name">Imie</label>
-            <input
-              id="first_name"
-              type="text"
-              name="first_name"
-              placeholder={user?.first_name}
-              required={false}
-              value={formData.first_name}
-              onChange={handleChange}
-            />
-
-            <label htmlFor="second_name">Nazwisko</label>
-            <input
-              id="second_name"
-              type="text"
-              name="second_name"
-              placeholder={user?.second_name}
-              required={false}
-              value={formData.second_name}
-              onChange={handleChange}
-            />
-
-            <label>Wiek</label>
-            <input
-              id="age"
-              type="number"
-              name="age"
-              placeholder={user?.age}
-              required={false}
-              value={formData.age}
-              onChange={handleChange}
-            />
-
-            <br />
-            <label>
+      <div className="home">
+      <div className="container">
+          <div className="btn">
+            <button className="special-button" onClick={handleGoBack}>
+              Powrót
+            </button>
+          </div>
+          </div>
+        <div className="createAnnoucement">
+          <form onSubmit={handleSubmit}>
+            <section>
+              <label htmlFor="username">Nazwa użytkownika</label>
               <input
-                type="checkbox"
-                name="enable_gender_change"
-                onChange={handleCheckboxChange}
-                checked={formData.enable_gender_change}
-              />
-              Zaznacz by zmienić pole Płeć
-            </label>
-            <label>Płeć</label>
-            <div className="multiple-input-container">
-              <select
-                id="gender-identity-dropdown"
-                name="gender_identity"
+                id="username"
+                type="text"
+                name="username"
+                placeholder={user?.username}
+                required={false}
+                value={formData.username}
                 onChange={handleChange}
-                value={formData.gender_identity}
-                disabled={!formData.enable_gender_change}
-              >
-                <option value="Mężczyzna">Mężczyzna</option>
-                <option value="Kobieta">Kobieta</option>
-                <option value="Inne">Inne</option>
-              </select>
-            </div>
+              />
 
-            <label htmlFor="about">O mnie</label>
-            <input
-              id="about"
-              type="text"
-              name="about"
-              required={false}
-              placeholder={user?.about}
-              value={formData.about}
-              onChange={handleChange}
-            />
+              <label htmlFor="first_name">Imie</label>
+              <input
+                id="first_name"
+                type="text"
+                name="first_name"
+                placeholder={user?.first_name}
+                required={false}
+                value={formData.first_name}
+                onChange={handleChange}
+              />
 
-            <input type="submit" />
-          </section>
+              <label htmlFor="second_name">Nazwisko</label>
+              <input
+                id="second_name"
+                type="text"
+                name="second_name"
+                placeholder={user?.second_name}
+                required={false}
+                value={formData.second_name}
+                onChange={handleChange}
+              />
 
-          <section>
-            <label htmlFor="url">Ikona na profilu</label>
-            <input
-              type="file"
-              name="url"
-              id="url"
-              onChange={handleChange}
-              required={false}
-            />
-            <div className="url-container">
-              {formData.url && (
-                <img src={formData.url} alt="profile pic preview" />
-              )}
-            </div>
-          </section>
-        </form>
+              <label>Wiek</label>
+              <input
+                id="age"
+                type="number"
+                name="age"
+                placeholder={user?.age}
+                required={false}
+                value={formData.age}
+                onChange={handleChange}
+              />
+
+              <label>Płeć</label>
+              <div className="multiple-input-container">
+                <select
+                  id="gender-identity-dropdown"
+                  name="gender_identity"
+                  onChange={handleChange}
+                  value={formData.gender_identity}
+                >
+                  <option value="Mężczyzna">Mężczyzna</option>
+                  <option value="Kobieta">Kobieta</option>
+                  <option value="Inne">Inne</option>
+                </select>
+              </div>
+
+              <label htmlFor="about">O mnie</label>
+              <input
+                id="about"
+                type="text"
+                name="about"
+                required={false}
+                placeholder={user?.about}
+                value={formData.about}
+                onChange={handleChange}
+              />
+
+              <input type="submit" />
+            </section>
+
+            <section>
+              <label htmlFor="url">Ikona na profilu</label>
+              <input
+                type="file"
+                name="url"
+                id="url"
+                onChange={handleChange}
+                required={false}
+              />
+              <div className="url-container">
+                {formData.url && (
+                  <img src={formData.url} alt="profile pic preview" />
+                )}
+              </div>
+            </section>
+          </form>
+        </div>
       </div>
 
       <ScrollTop />

@@ -28,12 +28,49 @@ const ApplicantsList = () => {
 
   const handleChat = (userId) => {
     navigate(`/chat/${userId}`);
+  };  
+
+  const handleAddAnnouncement = () => {
+    navigate("/addAnnoucement");
+  };
+
+  const handleMyAnnoucements = () => {
+    navigate("/myAnnoucements");
+  };
+  const handleMyApplications = () => {
+    navigate("/myApplications");
   };
 
   return (
     <div className="main">
       <Header />
       <div className="home">
+      <div className="container">
+          <div className="btn">
+            <button
+              className="special-button"
+              onClick={handleAddAnnouncement}
+            >
+              Dodaj ogłoszenie
+            </button>
+          </div>
+
+          <div className="btn2">
+            <button
+              onClick={handleMyAnnoucements}
+            >
+              Twoje ogłoszenia
+            </button>
+          </div>
+
+          <div className="btn">
+            <button
+              onClick={handleMyApplications}
+            >
+              Moje zgłoszenia
+            </button>
+          </div>
+        </div>
   <div className="UserChatInfo">
     {applicants.map((applicant) => (
       <p key={applicant.userId}>

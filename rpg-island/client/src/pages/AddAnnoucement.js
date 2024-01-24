@@ -45,7 +45,6 @@ const AddAnnoucement = () => {
       });
       const success = response.status === 200;
       if (success) {
-        // Po udanym dodaniu ogłoszenia przekieruj do odpowiedniego miejsca
         navigate("/annoucements");
       }
     } catch (err) {
@@ -96,6 +95,15 @@ const AddAnnoucement = () => {
       </div>
     );
   };
+
+  function getCurrentDate() {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+  
+    return `${year}-${month}-${day}`;
+  }
 
   return (
     <div className="main">
@@ -160,6 +168,7 @@ const AddAnnoucement = () => {
                 required={true}
                 value={formData2.termin_sesji}
                 onChange={handleChange}
+                min={getCurrentDate()}
               />
               <Tooltip title="Zaznacz odpowiednią datę kiedy planujesz, aby odbyła się pierwsza sesja."> <p className="tooltip"> ? </p>
               </Tooltip>

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-const ShowDetailsButton = ({ postId }) => {
+const ShowDetailsButton = ({ postId, onClose }) => {
   const [ onePost, setPost ] = useState(null);
+  const [showDetails, setShowDetails] = useState(null);
 
   const getPost = async () => {
     try {
@@ -19,9 +20,18 @@ const ShowDetailsButton = ({ postId }) => {
     getPost();
   }, [postId]);
 
+  const handleClose = () => {
+    setShowDetails(false);
+    onClose(); 
+  };
+
 
   return (
     <div className="details">
+            <div className="close-icon" onClick={handleClose}>
+        ⓧ
+      </div>
+
       <div>
         <p>Nazwa posta: {onePost?.nazwa_systemu}</p>
         <p>Opis posta: {onePost?.opis}</p>
