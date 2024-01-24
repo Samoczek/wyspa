@@ -5,10 +5,9 @@ import Footer from "../Components/Footer";
 import Header from "../Components/Header";
 import ScrollTop from "../Components/ScrollTop";
 
-
 const ApplicantsList = () => {
   const { postId } = useParams();
-  const [applicants, setApplicants, setClickedUser] = useState([]);
+  const [applicants, setApplicants] = useState([]);
   let navigate = useNavigate();
 
   const getApplicants = async () => {
@@ -28,7 +27,7 @@ const ApplicantsList = () => {
 
   const handleChat = (userId) => {
     navigate(`/chat/${userId}`);
-  };  
+  };
 
   const handleAddAnnouncement = () => {
     navigate("/addAnnoucement");
@@ -37,6 +36,7 @@ const ApplicantsList = () => {
   const handleMyAnnoucements = () => {
     navigate("/myAnnoucements");
   };
+
   const handleMyApplications = () => {
     navigate("/myApplications");
   };
@@ -45,50 +45,56 @@ const ApplicantsList = () => {
     <div className="main">
       <Header />
       <div className="home">
-      <div className="container">
+        <div className="container">
           <div className="btn">
-            <button
-              className="special-button"
-              onClick={handleAddAnnouncement}
-            >
+            <button className="special-button" onClick={handleAddAnnouncement}>
               Dodaj ogłoszenie
             </button>
           </div>
 
           <div className="btn2">
-            <button
-              onClick={handleMyAnnoucements}
-            >
-              Twoje ogłoszenia
-            </button>
+            <button onClick={handleMyAnnoucements}>Twoje ogłoszenia</button>
           </div>
 
           <div className="btn">
-            <button
-              onClick={handleMyApplications}
-            >
-              Moje zgłoszenia
-            </button>
+            <button onClick={handleMyApplications}>Moje zgłoszenia</button>
           </div>
         </div>
-  <div className="UserChatInfo">
-    {applicants.map((applicant) => (
-      <p key={applicant.userId}>
-        Imię: {applicant.first_name} <br />
-        Nazwisko: {applicant.second_name} <br />
-        Wiek: {applicant.age} <br />
-        O mnie: {applicant.about} <br />
-        Płeć: {applicant.gender_identity} <br />
-        <br />
-        <button onClick={() => handleChat(applicant.user_id)}>
-          Przejdź do chatu
-        </button>
-        <br />
-      </p>
-    ))}
-  </div>
-</div>
 
+        <div className="annocuements">
+          <table>
+            <thead>
+              <tr>
+                <th>Imię</th>
+                <th>Nazwisko</th>
+                <th>Wiek</th>
+                <th>O mnie</th>
+                <th>Płeć</th>
+                <th>Akcje</th>
+              </tr>
+            </thead>
+            <tbody>
+              {applicants.map((applicant) => (
+                <tr key={applicant.userId}>
+                  <td>{applicant.first_name}</td>
+                  <td>{applicant.second_name}</td>
+                  <td>{applicant.age}</td>
+                  <td>{applicant.about}</td>
+                  <td>{applicant.gender_identity}</td>
+                  <td>
+                    <button
+                      className="ApplyButton"
+                      onClick={() => handleChat(applicant.user_id)}
+                    >
+                      Przejdź do chatu
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
 
       <ScrollTop />
 

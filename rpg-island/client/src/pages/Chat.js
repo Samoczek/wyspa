@@ -134,7 +134,7 @@ const Chat = () => {
             </button>
           </div>
 
-          <div className="btn4">
+          <div className="btn">
             <button
               onClick={handleMyApplications}
               disabled={!cookies.AuthToken}

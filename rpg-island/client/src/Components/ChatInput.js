@@ -1,13 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 
 const ChatInput = ({ userData, getUserMessages, getClickedUsersMessages }) => {
   const [textArea, setTextArea] = useState("");
-  const [cookies, setCookie, removeCookie] = useCookies(["user"]);
+  const [cookies] = useCookies(["user"]);
   const userId = cookies.UserId;
   const clickedUserId = userData.user_id;
   const [user, setUser] = useState(null);
+  const enterPressed = useRef(false);
 
   const getUser = async () => {
     try {
@@ -25,9 +26,12 @@ const ChatInput = ({ userData, getUserMessages, getClickedUsersMessages }) => {
   }, []);
 
   const addMessage = async () => {
-    if (!textArea.trim()) {
+    if (!textArea.trim() || enterPressed.current) {
       return;
     }
+
+    enterPressed.current = true;
+
     const message = {
       timestamp: new Date().toISOString(),
       from_userId: userId,
@@ -43,6 +47,8 @@ const ChatInput = ({ userData, getUserMessages, getClickedUsersMessages }) => {
       setTextArea("");
     } catch (error) {
       console.log(error);
+    } finally {
+      enterPressed.current = false;
     }
   };
 

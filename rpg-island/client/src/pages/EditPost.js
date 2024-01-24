@@ -164,7 +164,7 @@ const EditPost = () => {
                 id="termin_sesji"
                 type="date"
                 name="termin_sesji"
-                required={true}
+                required={false}
                 value={formData2.termin_sesji}
                 onChange={handleChange}
                 min={getCurrentDate()}

@@ -12,13 +12,12 @@ import { Helmet } from "react-helmet";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-
 const Annoucements = () => {
   const [cookies, , removeCookie] = useCookies(["user"]);
   const [posts, setPosts] = useState([]);
   const generatedPostId = cookies.UserId;
   const [currentPage, setCurrentPage] = useState(1);
-  const postsPerPage = 6;
+  const postsPerPage = 3;
   const [showDetails, setShowDetails] = useState(false);
   const [filterSessions, setFilterSessions] = useState("");
   const [filterSessionLength, setFilterSessionLength] = useState("");
@@ -26,8 +25,7 @@ const Annoucements = () => {
   const [filterTerm, setFilterTerm] = useState("");
   const [filterName, setFilterName] = useState("");
 
-
-
+  
   const handleFilter = () => {
     getPosts();
   };
@@ -38,11 +36,9 @@ const Annoucements = () => {
     setFilterSessions("");
     setFilterSessionLength("");
     setFilterPlayers("");
-    // setCurrentPage(1); // Jeśli chcesz wracać do pierwszej strony po zresetowaniu filtrów
+    setCurrentPage(1); 
     getPosts();
   };
-
-
 
   const AnnoucementsPage = true;
 
@@ -57,8 +53,21 @@ const Annoucements = () => {
       const response = await axios.get("http://localhost:8000/posts", {
         params: { generatedPostId },
       });
-      setPosts(response.data);
-      console.log(response.data);
+
+      const filteredPosts = response.data.filter(
+        (post) =>
+          (!filterTerm ||
+            new Date(post.termin_sesji).getTime() ==
+              new Date(filterTerm).getTime()) &&
+          post.nazwa_systemu.toLowerCase().includes(filterName.toLowerCase()) &&
+          (!filterSessions || post.ilosc_sesji == parseInt(filterSessions)) &&
+          (!filterSessionLength ||
+            post.dlugosc_sesji == parseInt(filterSessionLength)) &&
+          (!filterPlayers || post.ilosc_graczy == parseInt(filterPlayers))
+      );
+
+      setPosts(filteredPosts);
+      setCurrentPage(1);
     } catch (error) {
       console.log(error);
     }
@@ -66,7 +75,9 @@ const Annoucements = () => {
 
   useEffect(() => {
     getPosts();
-  }, []);
+  }, [filterTerm, filterName, filterSessions, filterSessionLength, filterPlayers]);
+
+
 
   const handleAddAnnouncement = () => {
     navigate("/addAnnoucement");
@@ -88,7 +99,7 @@ const Annoucements = () => {
     let rightBound = currentPage + Math.floor(maxPagesToShow / 2);
 
     if (leftBound < 1) {
-      rightBound += Math.abs(leftBound) + 1;
+      rightBound += Math.abs(leftBound);
       leftBound = 1;
     }
 
@@ -162,7 +173,7 @@ const Annoucements = () => {
 
   const Tooltip = ({ title, children }) => {
     const [showTooltip, setShowTooltip] = useState(false);
-  
+
     return (
       <div
         className="tooltip-container"
@@ -182,9 +193,9 @@ const Annoucements = () => {
   function getCurrentDate() {
     const today = new Date();
     const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, '0');
-    const day = String(today.getDate()).padStart(2, '0');
-  
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const day = String(today.getDate()).padStart(2, "0");
+
     return `${year}-${month}-${day}`;
   }
 
@@ -227,52 +238,60 @@ const Annoucements = () => {
         </div>
 
         <div className="annocuements">
-
-        <div className="filter-section">
-        
-        <input
-          type="text"
-          placeholder="Nazwa Systemu"
-          value={filterName}
-          onChange={(e) => setFilterName(e.target.value)}
-        />
-        <Tooltip title="Wpisz nazwę systemu, który cię interesuje"> <p className="tooltip"> ? </p>
-        </Tooltip>
-        <input
-          type="date"
-          placeholder="Termin Sesji"
-          value={filterTerm}
-          onChange={(e) => setFilterTerm(e.target.value)}
-          min={getCurrentDate()}
-        />
-        <Tooltip title="Zaznacz datę, od której sesje cię interesują"> <p className="tooltip"> ? </p>
-        </Tooltip>
-        <input
-          type="number"
-          placeholder="Ilość Sesji"
-          value={filterSessions}
-          onChange={(e) => setFilterSessions(e.target.value)}
-        />
-        <Tooltip title="Wpisz liczbę sesji, od której sesje cię interesują"> <p className="tooltip"> ? </p>
-        </Tooltip>
-        <input
-          type="number"
-          placeholder="Długość Sesji"
-          value={filterSessionLength}
-          onChange={(e) => setFilterSessionLength(e.target.value)}
-        />
-        <Tooltip title="Wpisz długość sesji w godzinach"> <p className="tooltip"> ? </p>
-        </Tooltip>
-        <input
-          type="number"
-          placeholder="Ilość Graczy"
-          value={filterPlayers}
-          onChange={(e) => setFilterPlayers(e.target.value)}
-        />
-        <Tooltip title="Wpisz ilość graczy na sesji, od której sesje cię interesują"> <p className="tooltip"> ? </p>
-        </Tooltip>
-        <button onClick={handleResetFilters}>Resetuj filtry</button>
-      </div>
+          <div className="filter-section">
+            <input
+              type="text"
+              placeholder="Nazwa Systemu"
+              value={filterName}
+              onChange={(e) => setFilterName(e.target.value)}
+            />
+            <Tooltip title="Wpisz nazwę systemu, który cię interesuje">
+              {" "}
+              <p className="tooltip"> ? </p>
+            </Tooltip>
+            <input
+              type="date"
+              placeholder="Termin Sesji"
+              value={filterTerm}
+              onChange={(e) => setFilterTerm(e.target.value)}
+              min={getCurrentDate()}
+            />
+            <Tooltip title="Zaznacz datę, od której sesje cię interesują">
+              {" "}
+              <p className="tooltip"> ? </p>
+            </Tooltip>
+            <input
+              type="number"
+              placeholder="Ilość Sesji"
+              value={filterSessions}
+              onChange={(e) => setFilterSessions(e.target.value)}
+            />
+            <Tooltip title="Wpisz liczbę sesji, od której sesje cię interesują">
+              {" "}
+              <p className="tooltip"> ? </p>
+            </Tooltip>
+            <input
+              type="number"
+              placeholder="Długość Sesji"
+              value={filterSessionLength}
+              onChange={(e) => setFilterSessionLength(e.target.value)}
+            />
+            <Tooltip title="Wpisz długość sesji w godzinach">
+              {" "}
+              <p className="tooltip"> ? </p>
+            </Tooltip>
+            <input
+              type="number"
+              placeholder="Ilość Graczy"
+              value={filterPlayers}
+              onChange={(e) => setFilterPlayers(e.target.value)}
+            />
+            <Tooltip title="Wpisz ilość graczy na sesji, od której sesje cię interesują">
+              {" "}
+              <p className="tooltip"> ? </p>
+            </Tooltip>
+            <button onClick={handleResetFilters}>Resetuj filtry</button>
+          </div>
 
           <table>
             <thead>
@@ -288,54 +307,58 @@ const Annoucements = () => {
               </tr>
             </thead>
             <tbody>
-                      {currentPosts
-            .filter((post) =>
-              (!filterTerm ||
-                new Date(post.termin_sesji).getTime() >=
-                  new Date(filterTerm).getTime()) &&
-              post.nazwa_systemu
-                .toLowerCase()
-                .includes(filterName.toLowerCase()) &&
-              (!filterSessions || post.ilosc_sesji >= parseInt(filterSessions)) &&
-              (!filterSessionLength ||
-                post.dlugosc_sesji >= parseInt(filterSessionLength)) &&
-              (!filterPlayers || post.ilosc_graczy >= parseInt(filterPlayers))
-            )
-            .map((post) => (
-              <tr key={post._id}>
-                  <td>{post.nazwa_systemu}</td>
-                  <td>{post.termin_sesji}</td>
-                  <td>{post.ilosc_sesji}</td>
-                  <td>{post.dlugosc_sesji}</td>
-                  <td>{post.ilosc_graczy}</td>
-                  <td>{post.scenariusz}</td>
-                  <td>{post.bhs}</td>
-                  <td>
-                    <ApplyButton
-                      postId={post._id}
-                      postname={post.nazwa_systemu}
-                      postscenario={post.scenariusz}
-                      userId={generatedPostId}
-                      postUserId={post.user_id}
-                      postdate={post.termin_sesji}
-                      
-                    />
-                          <ToastContainer />
-                    {
-                      <button
-                        className="ApplyButton"
-                        onClick={() => handleShowDetails(post._id)}
-                      >
-                        Szczegóły
-                      </button>
-                    }
-                    {showDetails[post._id] && (
-                      <ShowDetailsButton postId={post._id} onClose={handleCloseDetails} />
-   
-                    )}
-                  </td>
-                </tr>
-              ))}
+              {currentPosts
+                .filter(
+                  (post) =>
+                    (!filterTerm ||
+                      new Date(post.termin_sesji).getTime() ==
+                        new Date(filterTerm).getTime()) &&
+                    post.nazwa_systemu
+                      .toLowerCase()
+                      .includes(filterName.toLowerCase()) &&
+                    (!filterSessions ||
+                      post.ilosc_sesji == parseInt(filterSessions)) &&
+                    (!filterSessionLength ||
+                      post.dlugosc_sesji == parseInt(filterSessionLength)) &&
+                    (!filterPlayers ||
+                      post.ilosc_graczy == parseInt(filterPlayers))
+                )
+                .map((post) => (
+                  <tr key={post._id}>
+                    <td>{post.nazwa_systemu}</td>
+                    <td>{post.termin_sesji}</td>
+                    <td>{post.ilosc_sesji}</td>
+                    <td>{post.dlugosc_sesji}</td>
+                    <td>{post.ilosc_graczy}</td>
+                    <td>{post.scenariusz}</td>
+                    <td>{post.bhs}</td>
+                    <td>
+                      <ApplyButton
+                        postId={post._id}
+                        postname={post.nazwa_systemu}
+                        postscenario={post.scenariusz}
+                        userId={generatedPostId}
+                        postUserId={post.user_id}
+                        postdate={post.termin_sesji}
+                      />
+                      <ToastContainer />
+                      {
+                        <button
+                          className="ApplyButton"
+                          onClick={() => handleShowDetails(post._id)}
+                        >
+                          Szczegóły
+                        </button>
+                      }
+                      {showDetails[post._id] && (
+                        <ShowDetailsButton
+                          postId={post._id}
+                          onClose={handleCloseDetails}
+                        />
+                      )}
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </table>
 

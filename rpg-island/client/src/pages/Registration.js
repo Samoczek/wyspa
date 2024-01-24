@@ -16,7 +16,7 @@ const Registration = () => {
     first_name: "",
     second_name: "",
     age: "",
-    gender_identity: "man",
+    gender_identity: "Mężczyzna",
     url: "",
     about: "",
   });

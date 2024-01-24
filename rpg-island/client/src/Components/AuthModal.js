@@ -9,7 +9,6 @@ const AuthModal = ({ setShowModal, isSignUp }) => {
   const [confirmPassword, setConfirmPassword] = useState(null);
   const [error, setError] = useState(null);
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
-
   let navigate = useNavigate();
 
   const handleClose = () => {
@@ -18,38 +17,39 @@ const AuthModal = ({ setShowModal, isSignUp }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     try {
       if (isSignUp && password !== confirmPassword) {
         setError("Hasła muszą być takie same!");
         return;
       }
-  
+
       const response = await axios.post(
         `http://localhost:8000/${isSignUp ? "signup" : "login"}`,
         { email, password }
       );
-  
+
       setCookie("UserId", response.data.userId);
       setCookie("AuthToken", response.data.token);
 
       if (response.data.blocked) {
-        setError("Twoje konto jest zablokowane. Skontaktuj się z administratorem.");
+        setError(
+          "Twoje konto jest zablokowane. Skontaktuj się z administratorem."
+        );
         return;
       }
-  
+
       const success = response.status === 201;
       if (success && isSignUp) navigate("/registration");
-  
+
       window.location.reload();
     } catch (error) {
-      
       console.error("Error during authentication:", error);
-      setError("Wystąpił błąd podczas uwierzytelniania. Spróbuj ponownie.");
+      setError(
+        "Wystąpił błąd podczas uwierzytelniania. Spróbuj ponownie."
+      );
     }
   };
-  
-  
 
   return (
     <div className="auth-modal">
@@ -73,7 +73,8 @@ const AuthModal = ({ setShowModal, isSignUp }) => {
         <input
           type="password"
           id="password"
-          pattern="^(?=.\d)(?=.[A-Z])(?=.[a-z])(?=.[^\w\d\s:])([^\s]){8,16}$"
+          pattern="^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:])([^\s]){8,16}$"
+          title="Minimum 8 znaków, przynajmniej jedna duża litera, jedna mała litera, jedna cyfra i jeden znak specjalny"
           name="password"
           placeholder="password"
           required={true}
