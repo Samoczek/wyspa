@@ -3,9 +3,11 @@ import React from "react";
 const Footer = () => {
   return (
     <div className="footer">
-      Kontakt: 3539852739857289
+      Kontakt: 732909712
       <br />
-      Test
+      Poczta: dominik175@tlen.pl
+      <br />
+      Prawa autorskie należą do: Dominik Zabiegaj
     </div>
   );
 };

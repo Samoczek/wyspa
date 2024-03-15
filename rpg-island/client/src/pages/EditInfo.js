@@ -176,22 +176,6 @@ const EditInfo = () => {
 
               <input type="submit" />
             </section>
-
-            <section>
-              <label htmlFor="url">Ikona na profilu</label>
-              <input
-                type="file"
-                name="url"
-                id="url"
-                onChange={handleChange}
-                required={false}
-              />
-              <div className="url-container">
-                {formData.url && (
-                  <img src={formData.url} alt="profile pic preview" />
-                )}
-              </div>
-            </section>
           </form>
         </div>
       </div>

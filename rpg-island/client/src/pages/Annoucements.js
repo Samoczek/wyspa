@@ -17,7 +17,7 @@ const Annoucements = () => {
   const [posts, setPosts] = useState([]);
   const generatedPostId = cookies.UserId;
   const [currentPage, setCurrentPage] = useState(1);
-  const postsPerPage = 3;
+  const postsPerPage = 9;
   const [showDetails, setShowDetails] = useState(false);
   const [filterSessions, setFilterSessions] = useState("");
   const [filterSessionLength, setFilterSessionLength] = useState("");
@@ -256,7 +256,7 @@ const Annoucements = () => {
               onChange={(e) => setFilterTerm(e.target.value)}
               min={getCurrentDate()}
             />
-            <Tooltip title="Zaznacz datę, od której sesje cię interesują">
+            <Tooltip title="Zaznacz datę, w której sesje cię interesują">
               {" "}
               <p className="tooltip"> ? </p>
             </Tooltip>
@@ -266,7 +266,7 @@ const Annoucements = () => {
               value={filterSessions}
               onChange={(e) => setFilterSessions(e.target.value)}
             />
-            <Tooltip title="Wpisz liczbę sesji, od której sesje cię interesują">
+            <Tooltip title="Wpisz liczbę sesji, jaka interesuje cię w ogłoszeniu">
               {" "}
               <p className="tooltip"> ? </p>
             </Tooltip>
@@ -286,7 +286,7 @@ const Annoucements = () => {
               value={filterPlayers}
               onChange={(e) => setFilterPlayers(e.target.value)}
             />
-            <Tooltip title="Wpisz ilość graczy na sesji, od której sesje cię interesują">
+            <Tooltip title="Wpisz ilość graczy na sesji, jaka interesuje cię w ogłoszeniu">
               {" "}
               <p className="tooltip"> ? </p>
             </Tooltip>

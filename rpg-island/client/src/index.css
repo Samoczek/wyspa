@@ -24,6 +24,27 @@ html, body {
     border-radius: 30px;
 }
 
+.rpg {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 120px;
+  text-align: center;
+  width: 67%;
+  color: white;
+  font-size: 27px;
+  font-family: Arial, sans-serif;
+  text-shadow:
+    0.07em 0 black,
+    0 0.07em black,
+    -0.07em 0 black,
+    0 -0.07em black;
+  margin: 0 auto; /* Centrowanie poziome */
+  margin-top: 20px; /* Dodatkowy margines na górę */
+}
+
+
 /*--- Podświetlane guziki --- */
 
 .container {
@@ -339,11 +360,12 @@ html, body {
 /*--- Stopka --- */
 
 .footer {
+  text-align: center;
     padding: 20px;
     position: relative;
     bottom: 0px;
     width: 98%;
-    height: 5.5rem;
+    height: 3.5rem;
     background-color: rgba(202, 196, 196, 0.781);
     margin-top: 20px;
   }

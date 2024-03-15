@@ -14,7 +14,7 @@ const Annoucements = () => {
   const [posts, setPosts] = useState([]);
   const generatedPostId = cookies.UserId;
   const [currentPage, setCurrentPage] = useState(1);
-  const postsPerPage = 6;
+  const postsPerPage = 9;
   const [showDetails, setShowDetails] = useState(false);
   const [filterSessions, setFilterSessions] = useState("");
   const [filterSessionLength, setFilterSessionLength] = useState("");
@@ -43,9 +43,24 @@ const Annoucements = () => {
 
   const getPosts = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/adminposts", {});
-      setPosts(response.data);
-      console.log(response.data);
+      const response = await axios.get("http://localhost:8000/posts", {
+        params: { generatedPostId },
+      });
+
+      const filteredPosts = response.data.filter(
+        (post) =>
+          (!filterTerm ||
+            new Date(post.termin_sesji).getTime() ==
+              new Date(filterTerm).getTime()) &&
+          post.nazwa_systemu.toLowerCase().includes(filterName.toLowerCase()) &&
+          (!filterSessions || post.ilosc_sesji == parseInt(filterSessions)) &&
+          (!filterSessionLength ||
+            post.dlugosc_sesji == parseInt(filterSessionLength)) &&
+          (!filterPlayers || post.ilosc_graczy == parseInt(filterPlayers))
+      );
+
+      setPosts(filteredPosts);
+      setCurrentPage(1);
     } catch (error) {
       console.log(error);
     }
@@ -53,7 +68,8 @@ const Annoucements = () => {
 
   useEffect(() => {
     getPosts();
-  }, []);
+  }, [filterTerm, filterName, filterSessions, filterSessionLength, filterPlayers]);
+
 
   const renderPageNumbers = () => {
     const totalPageNumbers = Math.ceil(posts.length / postsPerPage);

@@ -36,11 +36,6 @@ const ShowDetailsButton = ({ postId, onClose }) => {
         <p>Nazwa posta: {onePost?.nazwa_systemu}</p>
         <p>Opis posta: {onePost?.opis}</p>
         <p>Scenariusz posta: {onePost?.scenariusz}</p>
-        <p>
-            <div className="photo-container">
-              <img src={onePost?.url} alt="Obrazek!" className="profile-photo" />
-            </div>
-        </p>
       </div>
     </div>
   );

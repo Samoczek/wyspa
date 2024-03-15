@@ -147,7 +147,7 @@ const Chat = () => {
         {userData ? (
           <div className="UserChatInfo">
             <h2>
-              Chat z użytkownikiem {userData.first_name} {userData.second_name}
+              Chat z użytkownikiem {userData.username}
             </h2>
             <p>Imię: {userData.first_name}</p>
             <p>Nazwisko: {userData.second_name}</p>

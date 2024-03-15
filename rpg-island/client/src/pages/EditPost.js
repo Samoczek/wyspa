@@ -254,22 +254,6 @@ const EditPost = () => {
 
               <input type="submit" />
             </section>
-
-            <section>
-              <label htmlFor="url">Ikona ogłoszenia</label>
-              <input
-                type="file"
-                name="url"
-                id="url"
-                onChange={handleChange}
-                required={false}
-              />
-              <div className="url-container">
-                {formData2.url && (
-                  <img src={formData2.url} alt="profile pic preview" />
-                )}
-              </div>
-            </section>
           </form>
         </div>
       </div>

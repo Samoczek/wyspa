@@ -101,7 +101,7 @@ const UsersPanel = () => {
               </button>
             </div>
           </div>
-          <div className="announcements">
+          <div className="annocuements">
             <table>
               <thead>
                 <tr>
