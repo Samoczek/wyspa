@@ -8,8 +8,7 @@ const bcrypt = require("bcrypt");
 require("dotenv").config();
 const cookieParser = require("cookie-parser");
 
-const uri =
-  "mongodb+srv://TTRPG:TTRPG@ttrpg.41ndrag.mongodb.net/TTRPG?retryWrites=true&w=majority";
+const uri = process.env.URI
 
 const app = express();
 app.use(cors());
@@ -29,7 +28,7 @@ app.get("/", (req, res) => {
   res.json("Hello to my app");
 });
 
-// Sign up to the Database
+
 app.post("/signup", async (req, res) => {
   const client = new MongoClient(uri);
   const { email, password } = req.body;
@@ -45,7 +44,7 @@ app.post("/signup", async (req, res) => {
     const existingUser = await users.findOne({ email });
 
     if (existingUser) {
-      return res.status(409).send("User already exists. Please login");
+      return res.status(409).send("Użytkownik o takich danych już istnieje. Zaloguj się!");
     }
 
     const sanitizedEmail = email.toLowerCase();
@@ -127,7 +126,7 @@ app.post("/login", async (req, res) => {
     const user = await users.findOne({ email: normalizedEmail });
 
     if (!user) {
-      return res.status(400).json("Invalid Credentials");
+      return res.status(400).json("Nieprawidłowe dane uwierzytelniające");
     }
 
     if (user.blocked) {
@@ -137,12 +136,13 @@ app.post("/login", async (req, res) => {
     const correctPassword = await bcrypt.compare(password, user.hashed_password);
 
     if (correctPassword) {
-      const token = jwt.sign(user.user_id, normalizedEmail, {
-       // expiresIn: '1d',
-      });
+      const token = jwt.sign({ user_id: user.user_id }, normalizedEmail, {
+        expiresIn: '1d', // Token wygasa po 1 dniu
+    });
+    
       res.status(201).json({ token, userId: user.user_id });
     } else {
-      res.status(400).json("Invalid Credentials");
+      res.status(400).json("Nieprawidłowe dane uwierzytelniające");
     }
   } catch (err) {
     console.log(err);
@@ -295,7 +295,6 @@ app.put("/post", async (req, res) => {
     const database = client.db("app-data");
     const posts = database.collection("post");
 
-    // Usuń puste pola z obiektu `updateDocument`
     const updateDocument = {};
     for (const field in formData2) {
       if (
@@ -328,11 +327,10 @@ app.put("/postedit/:postId", async (req, res) => {
     const database = client.db("app-data");
     const posts = database.collection("post");
 
-    // Sprawdzenie, czy post o danym generatedPostId istnieje
+    // Sprawdzenie, czy post o danym id istnieje
     const existingPost = await posts.findOne({ user_id: formData2.user_id });
 
     if (existingPost) {
-      // Usuń puste pola z obiektu `updateDocument`
       const updateDocument = {};
       for (const field in formData2) {
         if (
@@ -347,7 +345,7 @@ app.put("/postedit/:postId", async (req, res) => {
       const result = await posts.updateOne({ user_id: formData2.user_id }, { $set: updateDocument });
       res.json(result);
     } else {
-      res.status(400).json({ error: "Post o podanym generatedPostId nie istnieje." });
+      res.status(400).json({ error: "Post o podanym Id nie istnieje." });
     }
 
   } finally {
@@ -455,7 +453,6 @@ app.get("/myapplicatedpost/:postId", async (req, res) => {
   }
 });
 
-// Get Messages by from_userId and to_userId
 app.get("/messages", async (req, res) => {
   const { userId, correspondingUserId } = req.query;
   const client = new MongoClient(uri);
@@ -479,7 +476,6 @@ app.get("/messages", async (req, res) => {
   }
 });
 
-// Add a Message to our Database
 app.post("/message", async (req, res) => {
   const client = new MongoClient(uri);
   const message = req.body.message;
@@ -523,7 +519,6 @@ app.get("/profile", async (req, res) => {
   }
 });
 
-///////////////////////////////////////////////////////////
 
 // Endpoint do zapisywania użytkownika do ogłoszenia
 app.post("/apply", async (req, res) => {
@@ -536,7 +531,6 @@ app.post("/apply", async (req, res) => {
 
     const { postId, userId, postname, postUserId, postscenario, postdate } = req.body;
 
-    // Sprawdź, czy użytkownik już jest zapisany do tego ogłoszenia
     const existingApplication = await applications.findOne({ postId, userId });
 
     if (existingApplication) {
@@ -545,7 +539,6 @@ app.post("/apply", async (req, res) => {
         .json({ message: "Użytkownik już zapisany do tego ogłoszenia." });
     }
 
-    // Zapisz użytkownika do ogłoszenia
     await applications.insertOne({ postId, userId, postname, postUserId, postscenario, postdate });
 
     res
@@ -587,7 +580,6 @@ app.get("/applications", async (req, res) => {
 });
 
 // Endpoint do pobierania zgłoszeń użytkowników dla danego ogłoszenia
-
 app.get("/applicants/:postId", async (req, res) => {
   const client = new MongoClient(uri);
   const postId = req.params.postId;
@@ -598,13 +590,11 @@ app.get("/applicants/:postId", async (req, res) => {
     const database = client.db("app-data");
     const applicantsCollection = database.collection("applications");
 
-    // Sprawdź, czy postId jest poprawnym ObjectId
     if (!ObjectId.isValid(postId)) {
       console.log("Nieprawidłowy ObjectId.");
-      return res.status(400).json({ message: "Nieprawidłowy ObjectId." });
+      return res.status(400).json({ message: "Nieprawidłowy Id." });
     }
 
-    // Znajdź ogłoszenie o danym ID
     const post = await database
       .collection("post")
       .findOne({ _id: new ObjectId(postId) });
@@ -616,12 +606,10 @@ app.get("/applicants/:postId", async (req, res) => {
         .json({ message: "Ogłoszenie nie zostało znalezione." });
     }
 
-    // Pobierz zgłoszenia użytkowników
     const applicants = await applicantsCollection
       .find({ postId: post._id.toString() })
       .toArray();
 
-    // Pobierz zgłoszenia z identycznym userId z kolekcji users
     const users = [];
     for (const applicant of applicants) {
       const user = await database
@@ -655,7 +643,6 @@ app.delete('/deleteApplication/:id', async (req, res) => {
 
     await applications.deleteOne({ _id: new ObjectId(idToDelete) });
 
-    // Po pomyślnym usunięciu, zwróć odpowiedni status
     res.status(200).json({ message: "Aplikacja została pomyślnie usunięta." });
   } catch (error) {
     console.error(error);

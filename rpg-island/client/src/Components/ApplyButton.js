@@ -8,6 +8,16 @@ const ApplyButton = ({ postId, userId, postname, postUserId, postscenario, postd
   const [cookies] = useCookies(["UserId"]);
 
   const handleApply = async () => {
+    // Sprawdź czy użytkownik jest zalogowany
+    if (!cookies.UserId) {
+      // Wyświetl komunikat o konieczności logowania
+      toast.error("Musisz być zalogowany, aby zapisać się do ogłoszenia.", {
+        position: "bottom-right",
+        autoClose: 3000,
+      });
+      return; // Przerwij funkcję, jeśli użytkownik nie jest zalogowany
+    }
+
     // Pobierz userId z ciasteczek
     const cookieUserId = cookies.UserId;
 
