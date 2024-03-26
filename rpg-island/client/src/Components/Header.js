@@ -67,7 +67,6 @@ const Header = ({ MainPage, AnnoucementsPage, ProfilePage }) => {
 
   return (
     <div className="header">
-      {/* Welcome message */}
       {cookies.AuthToken && user && (
         <h3 className="wmessage">Witaj: {user.username}</h3>
       )}
@@ -86,7 +85,6 @@ const Header = ({ MainPage, AnnoucementsPage, ProfilePage }) => {
         Ogłoszenia
       </button>
 
-      {/* Login button */}
       {!cookies.AuthToken && (
         <button
           className="button-special"
@@ -97,7 +95,6 @@ const Header = ({ MainPage, AnnoucementsPage, ProfilePage }) => {
         </button>
       )}
 
-      {/* Profile button */}
       {cookies.AuthToken && (
         <button
         className={`button-special${ProfilePage ? "2" : ""}`}
@@ -108,7 +105,6 @@ const Header = ({ MainPage, AnnoucementsPage, ProfilePage }) => {
         </button>
       )}
 
-      {/* Logout/Signup button */}
       <button
         className="button-special"
         onClick={cookies.AuthToken ? logout : handleClick}
@@ -116,7 +112,6 @@ const Header = ({ MainPage, AnnoucementsPage, ProfilePage }) => {
         {cookies.AuthToken ? "Wyloguj" : "Utwórz konto"}
       </button>
 
-      {/* Authentication Modal */}
       {showModal && (
         <AuthModal setShowModal={setShowModal} isSignUp={isSignUp} />
       )}

@@ -50,7 +50,7 @@ const Registration = () => {
         reader.readAsDataURL(file);  
       }
     } else {
-      const value = e.target.type === "checkbox" ? e.target.checked : e.target.value;
+      const value = e.target.value;
       const name = e.target.name;
 
       setFormData((prevState) => ({

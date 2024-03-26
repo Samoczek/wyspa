@@ -56,7 +56,6 @@ const Profile = () => {
             </button>
           </div>
 
-          {/* Dodaj warunek wyświetlający guzik tylko dla administratora */}
           {cookies.AuthToken && user && user.admin && (
             <div className="btn">
               <button className="admin-button" onClick={handleGoToAdminPanel}>

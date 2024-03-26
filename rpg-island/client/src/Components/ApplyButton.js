@@ -8,20 +8,16 @@ const ApplyButton = ({ postId, userId, postname, postUserId, postscenario, postd
   const [cookies] = useCookies(["UserId"]);
 
   const handleApply = async () => {
-    // Sprawdź czy użytkownik jest zalogowany
     if (!cookies.UserId) {
-      // Wyświetl komunikat o konieczności logowania
       toast.error("Musisz być zalogowany, aby zapisać się do ogłoszenia.", {
         position: "bottom-right",
         autoClose: 3000,
       });
-      return; // Przerwij funkcję, jeśli użytkownik nie jest zalogowany
+      return; 
     }
 
-    // Pobierz userId z ciasteczek
     const cookieUserId = cookies.UserId;
 
-    // Sprawdź czy userId z ciasteczek jest różne od postUserId
     if (cookieUserId !== postUserId) {
       try {
         const response = await axios.post("http://localhost:8000/apply", {
@@ -33,10 +29,9 @@ const ApplyButton = ({ postId, userId, postname, postUserId, postscenario, postd
           postUserId,
         });
 
-        // Wyświetl komunikat po udanym zapisaniu się
         toast.success(response.data.message, {
           position: "bottom-right",
-          autoClose: 3000, // zamknięcie po 3000 milisekundach (3 sekundy)
+          autoClose: 3000,
         });
 
         console.log(response.data.message);
@@ -46,14 +41,12 @@ const ApplyButton = ({ postId, userId, postname, postUserId, postscenario, postd
           error
         );
 
-        // Wyświetl komunikat w przypadku błędu
         toast.error("Użytkownik został już zapisany do tego ogłoszenia.", {
           position: "bottom-right",
           autoClose: 3000,
         });
       }
     } else {
-      // Wyświetl komunikat jeśli userId z ciasteczek jest taki sam jak postUserId
       toast.error("Nie możesz się zapisać do własnego ogłoszenia.", {
         position: "bottom-right",
         autoClose: 3000,
