@@ -15,8 +15,6 @@ app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 
-
-
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
   res.setHeader("Access-Control-Allow-Credentials", "true");
@@ -28,7 +26,7 @@ app.get("/", (req, res) => {
   res.json("Hello to my app");
 });
 
-
+// Endpoint do rejestracji nowego użytkownika
 app.post("/signup", async (req, res) => {
   const client = new MongoClient(uri);
   const { email, password } = req.body;
@@ -58,7 +56,7 @@ app.post("/signup", async (req, res) => {
     const insertedUser = await users.insertOne(data);
 
     const token = jwt.sign(insertedUser, sanitizedEmail, {
-      expiresIn: 60 * 24,
+      expiresIn: '1d', // Token wygasa po 1 dniu
     });
     res.status(201).json({ token, userId: generatedUserId });
   } catch (err) {
@@ -78,7 +76,6 @@ app.delete("/post/:id", async (req, res) => {
     const database = client.db("app-data");
     const post = database.collection("post");
 
-    // Usuń ogłoszenie
     await post.deleteOne({ _id: new ObjectId(postId) });
 
     res.status(200).json({ message: "Ogłoszenie zostało usunięte pomyślnie." });
@@ -92,7 +89,7 @@ app.delete("/post/:id", async (req, res) => {
   }
 });
 
-// Endpoint do danych jednego ogłoszenia
+// Endpoint do odczytywania danych jednego ogłoszenia
 app.get("/onePost/:id", async (req, res) => {
   const client = new MongoClient(uri);
   const postId = req.params.id;
@@ -111,7 +108,7 @@ app.get("/onePost/:id", async (req, res) => {
 });
 
 
-// Log in to the Database
+// Endpoint do logowania
 app.post("/login", async (req, res) => {
   const client = new MongoClient(uri);
   const { email, password } = req.body;
@@ -151,8 +148,7 @@ app.post("/login", async (req, res) => {
   }
 });
 
-
-
+// Endpoint do pobrania danych użytkownika z bazy
 app.get("/user", async (req, res) => {
   const client = new MongoClient(uri);
   const userId = req.query.userId;
@@ -170,10 +166,9 @@ app.get("/user", async (req, res) => {
   }
 });
 
-// Get all Users by userIds in the Database
+// Endpoint do pobrania danych użytkowników z bazy
 app.get("/users", async (req, res) => {
   const client = new MongoClient(uri);
-  //const userIds = JSON.parse(req.query.userIds)
 
   try {
     await client.connect();
@@ -188,6 +183,7 @@ app.get("/users", async (req, res) => {
   }
 });
 
+// Endpoint do dodawania/edycji danych profilu użytkownika
 app.put("/user", async (req, res) => {
   const client = new MongoClient(uri);
   const formData = req.body.formData;
@@ -230,18 +226,15 @@ app.delete("/user/:userId", async (req, res) => {
 
     const userId = req.params.userId;
 
-    // Sprawdź, czy userId jest poprawnym ObjectId
     if (!ObjectId.isValid(userId)) {
       return res.status(400).json({ message: "Nieprawidłowy format identyfikatora użytkownika." });
     }
 
-    // Sprawdź, czy użytkownik o danym ID istnieje
     const existingUser = await users.findOne({ _id: new ObjectId(userId) });
     if (!existingUser) {
       return res.status(404).json({ message: "Użytkownik nie znaleziony." });
     }
 
-    // Usuń użytkownika z bazy danych
     const deletionResult = await users.deleteOne({ _id: new ObjectId(userId) });
 
     if (deletionResult.deletedCount === 1) {
@@ -254,6 +247,7 @@ app.delete("/user/:userId", async (req, res) => {
   }
 });
 
+// Endpoint do blokowania kont użytkowników
 app.patch("/toggleblock/:userId", async (req, res) => {
   const client = new MongoClient(uri);
 
@@ -264,13 +258,11 @@ app.patch("/toggleblock/:userId", async (req, res) => {
 
     const userId = req.params.userId;
 
-    // Sprawdź, czy użytkownik o danym ID istnieje
     const existingUser = await users.findOne({ _id: new ObjectId(userId) });
     if (!existingUser) {
       return res.status(404).json({ message: "Użytkownik nie znaleziony." });
     }
 
-    // Zmień status blokady użytkownika
     const newBlockStatus = !existingUser.blocked;
     await users.updateOne({ _id: new ObjectId(userId) }, { $set: { blocked: newBlockStatus } });
 
@@ -284,8 +276,7 @@ app.patch("/toggleblock/:userId", async (req, res) => {
   }
 });
 
-
-
+// Endpoint do dodawania ogłoszenia
 app.put("/post", async (req, res) => {
   const client = new MongoClient(uri);
   const formData2 = req.body.formData2;
@@ -306,7 +297,6 @@ app.put("/post", async (req, res) => {
       }
     }
 
-    // Generuj nowe generatedPostId tylko dla nowych postów
     updateDocument.generatedPostId = formData2.generatedPostId || uuidv4();
 
     const result = await posts.insertOne(updateDocument);
@@ -317,6 +307,7 @@ app.put("/post", async (req, res) => {
   }
 });
 
+// Endpoint do aktualizowania ogłoszenia
 app.put("/postedit/:postId", async (req, res) => {
   const client = new MongoClient(uri);
   const formData2 = req.body.formData2;
@@ -327,7 +318,6 @@ app.put("/postedit/:postId", async (req, res) => {
     const database = client.db("app-data");
     const posts = database.collection("post");
 
-    // Sprawdzenie, czy post o danym id istnieje
     const existingPost = await posts.findOne({ user_id: formData2.user_id });
 
     if (existingPost) {
@@ -353,6 +343,7 @@ app.put("/postedit/:postId", async (req, res) => {
   }
 });
 
+// Endpoint do pobierania ogłoszeń z bazy
 app.get("/posts", async (req, res) => {
   const client = new MongoClient(uri);
 
@@ -373,6 +364,7 @@ app.get("/posts", async (req, res) => {
   }
 });
 
+// Endpoint do pobierania wszystkich ogłoszeń z bazy dla administratora
 app.get("/adminposts", async (req, res) => {
   const client = new MongoClient(uri);
 
@@ -390,7 +382,7 @@ app.get("/adminposts", async (req, res) => {
   }
 });
 
-
+// Endpoint do pobierania postów danego użytkownika
 app.get("/myposts", async (req, res) => {
   const userId = req.cookies.UserId;
 
@@ -401,7 +393,6 @@ app.get("/myposts", async (req, res) => {
     const database = client.db("app-data");
     const posts = database.collection("post");
 
-    // Pobierz ogłoszenia tylko dla danego użytkownika
     const userPosts = await posts
       .find({ user_id: userId })
       .sort({ data_dodania: -1 })
@@ -413,7 +404,7 @@ app.get("/myposts", async (req, res) => {
   }
 });
 
-
+// Endpoint do pobierania zgłoszeń użytkownika
 app.get("/myapplications", async (req, res) => {
   const client = new MongoClient(uri);
   const userId = req.cookies.UserId;
@@ -434,6 +425,7 @@ app.get("/myapplications", async (req, res) => {
   }
 });
 
+// Endpoint do pobierania ogłoszeń, do których zgłosił się użytkownik
 app.get("/myapplicatedpost/:postId", async (req, res) => {
   const postId = req.params.postId;
 
@@ -444,7 +436,6 @@ app.get("/myapplicatedpost/:postId", async (req, res) => {
     const database = client.db("app-data");
     const posts = database.collection("post");
 
-    // Pobierz ogłoszenia tylko dla danego użytkownika
     const userPosts = await posts.find({ _id: new ObjectId(postId) }).toArray();
 
     res.json(userPosts);
@@ -453,6 +444,7 @@ app.get("/myapplicatedpost/:postId", async (req, res) => {
   }
 });
 
+// Endpoint do pobierania wiadomości
 app.get("/messages", async (req, res) => {
   const { userId, correspondingUserId } = req.query;
   const client = new MongoClient(uri);
@@ -476,6 +468,7 @@ app.get("/messages", async (req, res) => {
   }
 });
 
+// Endpoint do wysyłania wiadomości
 app.post("/message", async (req, res) => {
   const client = new MongoClient(uri);
   const message = req.body.message;
@@ -537,7 +530,6 @@ app.get("/applications", async (req, res) => {
 
     const { postId } = req.query;
 
-    // Pobierz zapisanych użytkowników dla danego ogłoszenia
     const savedUsers = await applications.find({ postId }).toArray();
 
     res.status(200).json(savedUsers);
