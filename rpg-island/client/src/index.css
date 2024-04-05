@@ -1,7 +1,7 @@
 html, body {
     margin: 0;
     padding: 0;
-    background-image: url("./resources/wyspa.png");
+    background: linear-gradient(to bottom, #1969e2, #020f22);
     
     background-attachment: fixed;
     background-position: center;

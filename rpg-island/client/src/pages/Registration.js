@@ -37,19 +37,6 @@ const Registration = () => {
   };
 
   const handleChange = (e) => {
-    if (e.target.type === "file") {
-      const file = e.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          setFormData((prevState) => ({
-            ...prevState,
-            url: reader.result,
-          }));
-        };
-        reader.readAsDataURL(file);  
-      }
-    } else {
       const value = e.target.value;
       const name = e.target.name;
 
@@ -57,7 +44,6 @@ const Registration = () => {
         ...prevState,
         [name]: value,
       }));
-    }
   };
 
   return (
