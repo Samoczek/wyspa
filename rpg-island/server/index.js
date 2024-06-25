@@ -310,15 +310,15 @@ app.put("/post", async (req, res) => {
 // Endpoint do aktualizowania ogłoszenia
 app.put("/postedit/:postId", async (req, res) => {
   const client = new MongoClient(uri);
+  const postId = req.params.postId;
   const formData2 = req.body.formData2;
-
 
   try {
     await client.connect();
     const database = client.db("app-data");
     const posts = database.collection("post");
 
-    const existingPost = await posts.findOne({ user_id: formData2.user_id });
+    const existingPost = await posts.findOne({ _id: new ObjectId(postId) });
 
     if (existingPost) {
       const updateDocument = {};
@@ -332,7 +332,7 @@ app.put("/postedit/:postId", async (req, res) => {
         }
       }
 
-      const result = await posts.updateOne({ user_id: formData2.user_id }, { $set: updateDocument });
+      const result = await posts.updateOne({ _id: new ObjectId(postId) }, { $set: updateDocument });
       res.json(result);
     } else {
       res.status(400).json({ error: "Post o podanym Id nie istnieje." });

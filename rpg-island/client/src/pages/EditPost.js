@@ -137,7 +137,7 @@ const EditPost = () => {
                 pattern="[\s\S]*"
                 minLength={3}
                 maxLength={32}
-                name="nazwa_systemu"
+                name="nazwa_systemu" 
                 placeholder={onePost?.nazwa_systemu}
                 required={false}
                 value={formData2.nazwa_systemu}
@@ -160,7 +160,6 @@ const EditPost = () => {
                 id="ilosc_sesji"
                 type="text"
                 pattern="[1-9][0-9]?[0-9]?"
-                g
                 name="ilosc_sesji"
                 placeholder="Ilość sesji"
                 required={false}
@@ -172,8 +171,8 @@ const EditPost = () => {
               <input
                 id="dlugosc_sesji"
                 type="text"
-                pattern="[\s\S]*"
-                minLength={2}
+                pattern="[[1-9][0-9]?]*"
+                minLength={1}
                 maxLength={32}
                 name="dlugosc_sesji"
                 placeholder="Długość sesji"
@@ -187,7 +186,6 @@ const EditPost = () => {
                 id="ilosc_graczy"
                 type="text"
                 pattern="[1-9][0-9]?"
-                g
                 name="ilosc_graczy"
                 placeholder="Ilość poszukiwanych graczy"
                 required={false}
